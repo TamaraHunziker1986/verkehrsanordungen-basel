@@ -251,13 +251,14 @@ def main():
         for p in pubs:
             meta = p["meta"]
             if sub == "VE-BS40" and meta["id"] in known and meta["id"] not in CACHE:
-                rows.append(known[meta["id"]])
+                rows.append(known[meta["id"]][:8] + [meta.get("publicationNumber", "")])
                 continue
             try:
                 text = view_text(meta["id"])
             except Exception as e:  # noqa: BLE001
                 print(f"  übersprungen {meta['id']}: {e}", file=sys.stderr)
                 continue
+            n_before = len(rows)
             if sub == "VE-BS40":
                 rows.append(record_va(meta, text))
             elif sub == "VE-BS50":
@@ -275,6 +276,8 @@ def main():
                 rows.append(r)
             elif keep_bp(meta, text):
                 rows.append(record_bp(meta, text))
+            if len(rows) > n_before:
+                rows[-1] = rows[-1][:8] + [meta.get("publicationNumber", "")]
     CACHE_FILE.parent.mkdir(exist_ok=True)
     CACHE_FILE.write_text(json.dumps(CACHE, ensure_ascii=False), encoding="utf-8")
     if not rows:

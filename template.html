@@ -58,7 +58,8 @@ ul.ms .old{color:var(--mut)}
 .pill{font-size:12.5px;font-weight:600;padding:1px 8px;border-radius:99px;white-space:nowrap}
 .p-va{background:var(--blue);color:#fff}.p-bp{background:var(--yel);color:#222}.p-t{background:var(--red);color:#fff}
 .loss{font-size:14px;color:var(--red);font-weight:700}.loss.gain{color:light-dark(#1d7f3a,#81c185)}
-a.src{font-size:14px;color:var(--blue2);font-weight:600;margin-top:auto}
+.quelle{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:13px;color:var(--mut)}.quelle a{color:var(--blue2);font-weight:700}
+.srcline{margin:14px 0 0;font-size:14px;color:#c9e1f6}.srcline a{color:#fff}
 details.more summary{cursor:pointer;color:var(--blue2);font-size:14px;font-weight:600}
 .empty{padding:40px 0;color:var(--mut)}
 footer{color:var(--mut);font-size:14px}
@@ -73,6 +74,7 @@ footer p{max-width:80ch}
   <p class="org">Gewerbeverband Basel-Stadt · Politik</p>
   <h1>Verkehrsanordnungen und Bauprojekte im Kantonsblatt Basel-Stadt</h1>
   <p class="lead" id="lead"></p>
+  <p class="srcline">Quelle: <a href="https://www.kantonsblatt.ch/" target="_blank" rel="noopener">Kantonsblatt Basel-Stadt</a>, Staatskanzlei des Kantons Basel-Stadt</p>
   <div class="kpis" id="kpis"></div>
  </div>
 </header>
@@ -180,7 +182,7 @@ const parseItems = m => m.split(/\n\s*-\s*|^\s*-\s*/).map(t => t.trim()).filter(
 });
 
 const LABEL = {VE40:'Verkehrsanordnung', VE50:'Verkehrspolizei', VE10:'Strassenbau', BP10:'Baupublikation', BP20:'Allmend'};
-const DATA = RAW.map(([d, r, t, s, typ, g, m, id]) => {
+const DATA = RAW.map(([d, r, t, s, typ, g, m, id, nr]) => {
  const va = r === 'VE40';
  const items = va ? parseItems(m) : [{ loc: '', neu: m, old: '', lost: 0, gain: 0 }];
  const neuText = items.map(i => i.neu).join('\n') + (va ? '' : '\n' + t);
@@ -189,7 +191,7 @@ const DATA = RAW.map(([d, r, t, s, typ, g, m, id]) => {
  if (!cats.length) cats.push(va ? 'verbot' : 'bau');
  const gem = /Riehen/.test(t + s) ? 'Riehen' : /Bettingen/.test(t + ' ' + s) && !/Basel, Bettingen/.test(t) ? 'Bettingen' : 'Basel';
  const streets = s.split(/,\s*/).map(x => x.replace(/\s*\((Riehen|Bettingen)\)/, '').trim()).filter(Boolean);
- return { d, r, va, t, streets, g, items, id, cats, gem, lost: items.reduce((a, i) => a + i.lost, 0), gain: items.reduce((a, i) => a + i.gain, 0), hay: (t + ' ' + s + ' ' + g + ' ' + m).toLowerCase() };
+ return { d, r, nr, va, t, streets, g, items, id, cats, gem, lost: items.reduce((a, i) => a + i.lost, 0), gain: items.reduce((a, i) => a + i.gain, 0), hay: (t + ' ' + s + ' ' + g + ' ' + m).toLowerCase() };
 }).sort((a, b) => b.d.localeCompare(a.d));
 
 const PP = 5.5;
@@ -206,7 +208,7 @@ const card = e => {
   <ul class="ms">${shown.map(li).join('')}</ul>
   ${hidden.length ? `<details class="more"><summary>${hidden.length} weitere Punkte</summary><ul class="ms">${hidden.map(li).join('')}</ul></details>` : ''}
   ${Math.abs(net) > 0.5 ? `<span class="loss${net < 0 ? ' gain' : ''}">Blaue Zone: rund ${Math.round(Math.abs(net))} m ${net > 0 ? 'weniger' : 'mehr'}, ${pp(Math.abs(net))} ${net > 0 ? 'weniger' : 'mehr'}</span>` : ''}
-  <a class="src" href="${KB(esc(e.id))}" target="_blank" rel="noopener">Im Kantonsblatt öffnen</a>
+  <p class="quelle">Quelle: Kantonsblatt Basel-Stadt vom ${dShort(e.d)}${e.nr ? ', Meldung ' + esc(e.nr) : ''}. <a href="${KB(esc(e.id))}" target="_blank" rel="noopener">Im Kantonsblatt öffnen</a></p>
  </article>`;
 };
 
