@@ -57,7 +57,7 @@ ul.ms .loc{display:block;font-size:13.5px;color:var(--mut)}
 ul.ms .old{color:var(--mut)}
 .pill{font-size:12.5px;font-weight:600;padding:1px 8px;border-radius:99px;white-space:nowrap}
 .p-va{background:var(--blue);color:#fff}.p-bp{background:var(--yel);color:#222}.p-t{background:var(--red);color:#fff}
-.loss{font-size:13px;color:var(--red);font-weight:600}
+.loss{font-size:14px;color:var(--red);font-weight:700}.loss.gain{color:light-dark(#1d7f3a,#81c185)}
 a.src{font-size:14px;color:var(--blue2);font-weight:600;margin-top:auto}
 details.more summary{cursor:pointer;color:var(--blue2);font-size:14px;font-weight:600}
 .empty{padding:40px 0;color:var(--mut)}
@@ -192,6 +192,8 @@ const DATA = RAW.map(([d, r, t, s, typ, g, m, id]) => {
  return { d, r, va, t, streets, g, items, id, cats, gem, lost: items.reduce((a, i) => a + i.lost, 0), gain: items.reduce((a, i) => a + i.gain, 0), hay: (t + ' ' + s + ' ' + g + ' ' + m).toLowerCase() };
 }).sort((a, b) => b.d.localeCompare(a.d));
 
+const PP = 5.5;
+const pp = m => { const n = Math.round(m / PP); return n < 1 ? 'weniger als ein Parkplatz' : 'etwa ' + n + (n === 1 ? ' Parkplatz' : ' Parkplätze'); };
 const card = e => {
  const shown = e.items.slice(0, 4), hidden = e.items.slice(4);
  const li = i => `<li>${i.loc ? `<span class="loc">${esc(i.loc)}</span>` : ''}${esc(i.neu)}${i.old ? ` <span class="old">(bisher ${esc(i.old)})</span>` : ''}</li>`;
@@ -203,7 +205,7 @@ const card = e => {
   <div class="tags">${e.cats.map(k => `<span class="tag">${sign(k)}${esc(CATS.find(c => c.k === k).n)}</span>`).join('')}</div>
   <ul class="ms">${shown.map(li).join('')}</ul>
   ${hidden.length ? `<details class="more"><summary>${hidden.length} weitere Punkte</summary><ul class="ms">${hidden.map(li).join('')}</ul></details>` : ''}
-  ${net > 0.5 ? `<span class="loss">Blaue Zone: rund ${Math.round(net)} m weniger</span>` : ''}
+  ${Math.abs(net) > 0.5 ? `<span class="loss${net < 0 ? ' gain' : ''}">Blaue Zone: rund ${Math.round(Math.abs(net))} m ${net > 0 ? 'weniger' : 'mehr'}, ${pp(Math.abs(net))} ${net > 0 ? 'weniger' : 'mehr'}</span>` : ''}
   <a class="src" href="${KB(esc(e.id))}" target="_blank" rel="noopener">Im Kantonsblatt öffnen</a>
  </article>`;
 };
@@ -254,7 +256,7 @@ const k = [
  [va.length, 'Verkehrsanordnungen'],
  [DATA.length - va.length, 'Bau- und Allmendgesuche'],
  [streetsN, 'betroffene Strassen'],
- ['≈ ' + Math.round((lost - gain) / 5.5), `Blaue-Zone-Parkplätze netto weniger (${Math.round(lost)} m aufgehoben, ${Math.round(gain)} m neu)`, 'red']
+ ['≈ ' + Math.round((lost - gain) / PP), `Blaue-Zone-Parkplätze netto weniger (${Math.round(lost)} m aufgehoben, etwa ${Math.round(lost / PP)} Parkplätze; ${Math.round(gain)} m neu, etwa ${Math.round(gain / PP)} Parkplätze)`, 'red']
 ];
 $('kpis').innerHTML = k.map(([v, l, c]) => `<div class="kpi ${c || ''}"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join('');
 $('stand').textContent = 'Stand der Daten: ' + STAND + '.';

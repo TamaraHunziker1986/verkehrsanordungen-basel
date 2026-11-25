@@ -40,7 +40,7 @@ DE_MO = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
          "September", "Oktober", "November", "Dezember"]
 
 
-def get(url, tries=4):
+def get(url, tries=6):
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers={
@@ -53,7 +53,7 @@ def get(url, tries=4):
             if i == tries - 1:
                 raise
             print(f"  Fehler {e}, neuer Versuch", file=sys.stderr)
-            time.sleep(3 * (i + 1))
+            time.sleep(min(60, 5 * 2 ** i))
 
 
 def list_pubs(sub, since):
@@ -98,9 +98,18 @@ def flatten(fields, acc):
     return acc
 
 
+CACHE_FILE = ROOT / "cache" / "views.json"
+CACHE = {}
+
+
 def view_text(pid):
+    """Text einer Publikation; einmal geholte Texte kommen aus dem Zwischenspeicher."""
+    if pid in CACHE:
+        return CACHE[pid]
     v = get(f"{API}/publications/{pid}/view")
-    return "\n".join(flatten(v.get("fields"), []))
+    CACHE[pid] = "\n".join(flatten(v.get("fields"), []))
+    time.sleep(0.3)
+    return CACHE[pid]
 
 
 BOILER = re.compile(
@@ -228,12 +237,22 @@ def keep_bp(meta, text):
 
 def main():
     since = START
+    if CACHE_FILE.exists():
+        CACHE.update(json.loads(CACHE_FILE.read_text(encoding="utf-8")))
+    # Bereits aufbereitete Verkehrsanordnungen aus dem letzten Lauf übernehmen (spart Abfragen)
+    known = {}
+    old_file = ROOT / "docs" / "data.json"
+    if old_file.exists():
+        known = {r[7]: r for r in json.loads(old_file.read_text(encoding="utf-8")) if r[1] == "VE40"}
     rows = []
     for sub in RUBRICS:
         pubs = list_pubs(sub, since)
         print(f"{sub}: {len(pubs)} Publikationen seit {since}")
         for p in pubs:
             meta = p["meta"]
+            if sub == "VE-BS40" and meta["id"] in known and meta["id"] not in CACHE:
+                rows.append(known[meta["id"]])
+                continue
             try:
                 text = view_text(meta["id"])
             except Exception as e:  # noqa: BLE001
@@ -256,7 +275,8 @@ def main():
                 rows.append(r)
             elif keep_bp(meta, text):
                 rows.append(record_bp(meta, text))
-            time.sleep(0.15)
+    CACHE_FILE.parent.mkdir(exist_ok=True)
+    CACHE_FILE.write_text(json.dumps(CACHE, ensure_ascii=False), encoding="utf-8")
     if not rows:
         sys.exit("Keine Daten erhalten, Seite bleibt unverändert.")
     # Das Kantonsblatt nimmt Baupublikationen nach Ablauf der Frist vom Netz.
