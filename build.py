@@ -24,12 +24,13 @@ RUBRICS = ["VE-BS40", "VE-BS10", "BP-BS10", "BP-BS20"]
 # Baupublikationen nur, wenn eines dieser Stichworte im Projekt vorkommt
 BP_KEEP = re.compile(
     r"parkpl|parkfeld|parkier|autoabstell|abstellpl|einstellhalle|tiefgarage|garage|carport|"
-    r"ladesäule|ladestation|elektroparkpl|e-mobilit|strassenlinie|baulinie|fahrweg|fahrbahn|"
-    r"trottoir|bushaltestelle|tram|umgestaltung der allmend|umgestaltung parkplatz|"
-    r"erschliessungsplan|verkehr",
+    r"ladesäule|ladestation|elektroparkpl|e-mobilit|veloverleih|strassenlinie|änderung der baulinie|"
+    r"fahrweg|fahrbahn|trottoir|bushaltestelle|\btram\b|tramlinie|eisenbahnrechtlich|"
+    r"umgestaltung der allmend|umgestaltung parkplatz|erschliessungsplan|verkehr",
     re.I,
 )
-# ... aber nicht, wenn es nur um Bäume, Boulevards oder Ähnliches geht
+# Reine Baumfällungen, Wärmepumpen und Ähnliches weglassen
+BP_DROP_TITLE = re.compile(r"^Baumfällung", re.I)
 BP_DROP = re.compile(r"^\s*(baumfäll\w*|baumfällgesuch|boulevard\w*|provisorischer pausenplatz)\s*$", re.I)
 
 DE_WD = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
@@ -108,11 +109,20 @@ ERLASS = re.compile(r"wird folgende (?:temporäre )?Verkehrsanordnung erlassen:|
 
 
 def place_suffix(title):
-    if "Riehen" in title:
+    if re.search(r",\s*Riehen$", title.strip()):
         return " (Riehen)"
-    if re.search(r",\s*Bettingen$", title) and "Basel, Bettingen" not in title:
+    if re.search(r",\s*Bettingen$", title.strip()) and "Basel, Bettingen" not in title:
         return " (Bettingen)"
     return ""
+
+
+def clean_streets(parts, suf):
+    out = []
+    for p in parts:
+        p = re.sub(r"\s*\b(Nutzung|Erschliessung)\b.*$", "", p.strip()).strip(" ,-")
+        if p and p not in ("Basel", "Riehen", "Bettingen") and p not in out:
+            out.append(p)
+    return ", ".join(x + suf for x in out)
 
 
 def record_va(meta, text):
@@ -175,23 +185,21 @@ def record_bp(meta, text):
         streets = re.sub(r"^(Basel|Riehen|Bettingen),\s*", "", place.group(1))
         streets = re.sub(r"\s*-\s*(Nutzung|Erschliessung).*$", "", streets)
         streets = re.sub(r"\s*\d[\d\s+\-–]*", " ", streets)
-        streets = ", ".join(dict.fromkeys(s.strip() for s in re.split(r",", streets) if s.strip()))
+        streets = re.split(r",", streets)
     else:
         m = re.search(r":\s*(.+)$", title)
         streets = m.group(1) if m else ""
         streets = re.sub(r"\s*\d[\w\s,]*?(?=,|$)", "", streets)
-        streets = ", ".join(dict.fromkeys(
-            s.strip() for s in re.split(r",", streets)
-            if s.strip() and s.strip() not in ("Basel", "Riehen", "Bettingen")))
-    suf = place_suffix(title)
-    if suf:
-        streets = ", ".join(s + suf for s in streets.split(", ") if s)
+        streets = re.split(r",", streets)
+    streets = clean_streets(streets, place_suffix(title))
     return [meta["publicationDate"][:10], meta["subRubric"].replace("-BS", ""),
             re.sub(r"^Bau- und Nutzungsgesuch auf Allmend - ", "Bau- und Nutzungsgesuch auf Allmend: ", title),
             streets, "", "", summary.strip(), meta["id"]]
 
 
-def keep_bp(text):
+def keep_bp(meta, text):
+    if BP_DROP_TITLE.match(meta["title"]["de"]):
+        return False
     proj = project_text(text)
     first = proj.split("\n")[0]
     if BP_DROP.match(first):
@@ -222,11 +230,24 @@ def main():
             elif sub == "VE-BS10":
                 r = record_bp(meta, text)
                 rows.append(r)
-            elif keep_bp(text):
+            elif keep_bp(meta, text):
                 rows.append(record_bp(meta, text))
             time.sleep(0.15)
     if not rows:
         sys.exit("Keine Daten erhalten, Seite bleibt unverändert.")
+    # Erschliessung und Nutzung zum selben Ort zusammenfassen
+    merged, seen = [], {}
+    for r in rows:
+        key = (r[0], r[1], r[3]) if r[1] == "BP20" and r[3] else None
+        if key and key in seen:
+            prev = seen[key]
+            if r[6] not in prev[6]:
+                prev[6] = prev[6] + " / " + r[6]
+            continue
+        if key:
+            seen[key] = r
+        merged.append(r)
+    rows = merged
     rows.sort(key=lambda r: r[0], reverse=True)
     latest = dt.date.fromisoformat(rows[0][0])
     stand = f"Kantonsblatt vom {DE_WD[latest.weekday()]}, {latest.day}. {DE_MO[latest.month - 1]} {latest.year}"
