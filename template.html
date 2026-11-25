@@ -27,6 +27,9 @@ h1{font:700 clamp(30px,4.6vw,46px)/1.1 Tahoma,Verdana,sans-serif;margin:0 0 8px;
 .kpi{border:2px solid #4f8fcc;border-radius:10px;padding:12px 14px;background:rgba(79,143,204,.12)}
 .kpi b{display:block;font:700 clamp(28px,4vw,38px)/1 Tahoma,Verdana,sans-serif}
 .kpi span{font-size:14px;color:#c9e1f6}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.cats a{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:3px 12px 3px 5px;border-radius:99px;background:rgba(255,255,255,.12);color:#fff;text-decoration:none;font-size:14px}
+.cats a:hover{background:rgba(255,255,255,.22)}.cats svg{width:24px;height:24px}.cats b{font-weight:700}
 .kpi.red{border-color:#e94d25;background:rgba(233,77,37,.14)}
 .bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .bar .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px max(5vw,16px)}
@@ -76,6 +79,7 @@ footer p{max-width:80ch}
   <p class="lead" id="lead"></p>
   <p class="srcline">Quelle: <a href="https://www.kantonsblatt.ch/" target="_blank" rel="noopener">Kantonsblatt Basel-Stadt</a>, Staatskanzlei des Kantons Basel-Stadt</p>
   <div class="kpis" id="kpis"></div>
+  <nav class="cats" id="cats" aria-label="Massnahmen"></nav>
  </div>
 </header>
 <div class="grad" aria-hidden="true"></div>
@@ -131,7 +135,7 @@ const CATS = [
  {k:'verbot', n:'Halte- und Parkverbote', re:/Halteverbot|Parkverbot|^\s*Parkieren verboten(?!, Parkieren mit Parkscheibe)|Parkieren nicht möglich|Zickzack|Sperrfläche/m},
  {k:'tempo', n:'Tempo 30 und Begegnungszonen', re:/Tempo|Höchstgeschwindigkeit|Begegnungszone/},
  {k:'fahr', n:'Fahrverbote, Einbahn, Vortritt', re:/Verbot für Motorwagen|Einbahn|Vortritt|Geradeausfahren/},
- {k:'oev', n:'Bus und Tram', re:/Buslinie|Bushaltestelle|Tram/},
+ {k:'oev', n:'Bus und Tram', re:/Buslinie|Bushaltestelle|Tram|Zickzack/},
  {k:'park', n:'Parkplätze in Bauprojekten', re:/Parkpl|Garage|Autoeinstellhalle/},
  {k:'bau', n:'Strassenraum und Allmend', re:/Allmend|Strassenlinie|Fahrweg|Fahrbahn|Trottoir|Erschliessungsplan/},
  {k:'baum', n:'Baumfällungen und Bäume', re:/Baumfäll|Baumpflanz|Baumrabatt/},
@@ -186,7 +190,7 @@ const DATA = RAW.map(([d, r, t, s, typ, g, m, id, nr]) => {
  const va = r === 'VE40';
  const items = va ? parseItems(m) : [{ loc: '', neu: m, old: '', lost: 0, gain: 0 }];
  const neuText = items.map(i => i.neu).join('\n') + (va ? '' : '\n' + t);
- const cats = CATS.filter(c => c.re && c.re.test(neuText)).map(c => c.k);
+ const cats = CATS.filter(c => c.re && c.re.test(c.k === 'oev' ? neuText + ' ' + g : neuText)).map(c => c.k);
  if (typ === 'T' || /Baubedingt|temporär/i.test(t + m)) cats.push('temp');
  if (!cats.length) cats.push(va ? 'verbot' : 'bau');
  const gem = /Riehen/.test(t + s) ? 'Riehen' : /Bettingen/.test(t + ' ' + s) && !/Basel, Bettingen/.test(t) ? 'Bettingen' : 'Basel';
@@ -262,6 +266,8 @@ const k = [
 ];
 $('kpis').innerHTML = k.map(([v, l, c]) => `<div class="kpi ${c || ''}"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join('');
 $('stand').textContent = 'Stand der Daten: ' + STAND + '.';
+$('cats').innerHTML = CATS.map(c => { const n = DATA.filter(e => e.cats.includes(c.k)).length; return n ? `<a href="#massnahme" data-cat="${c.k}">${sign(c.k)}${esc(c.n)} <b>${n}</b></a>` : ''; }).join('');
+$('cats').addEventListener('click', ev => { const a = ev.target.closest('a[data-cat]'); if (!a) return; ev.preventDefault(); view = 'massnahme'; $('q').value = ''; render(); const el = document.getElementById('c-' + a.dataset.cat); if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); });
 
 document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
  view = b.dataset.v;
