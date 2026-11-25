@@ -929,7 +929,7 @@
   "Verkehrsanordnung Grellingerstrasse",
   "Grellingerstrasse",
   "P",
-  "",
+  "Widerruf oder Korrektur einer früheren Verkehrsanordnung",
   "Die nachstehende Massnahme, welche im Kantonsblatt vom 21. Mai 2025 publiziert wurde, wird widerrufen. Es erfolgt keine Umsetzung der Elektroladestation an dieser Örtlichkeit. Es gilt weiterhin der bisherige Zustand.\n- vor den Liegenschaften Nrn. 82-84, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).",
   "05cd9d78-ff99-4c13-9296-ecdf7d7b3f5f",
   "VE-BS40-0000001479"
@@ -1446,7 +1446,7 @@
   "Verkehrsanordnung St. Alban-Talstrasse",
   "St. Alban-Talstrasse",
   "P",
-  "",
+  "Widerruf oder Korrektur einer früheren Verkehrsanordnung",
   "Die Verkehrsanordnung zur St. Alban-Talstrasse des Amts für Mobilität des Kantons Basel-Stadt, publiziert im Kantonsblatt Basel-Stadt vom 17. September 2025 (Meldungsnummer VE-BS40-0000001268), wird teilweise in Wiedererwägung gezogen.\nFolgende Massnahme wird aufgehoben:\n- vor den Liegenschaften Nrn. 17 und 19, auf einer Länge von 27 m:\nParkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4052 unbeschränkt (bisher Parkieren verboten).\nund wie folgt ersetzt:\n- vor den Liegenschaften Nrn. 17 und 19, auf einer Länge von 11 m:\nParkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4052 unbeschränkt (bisher Parkieren verboten).\nFolgende Massnahmen werden ersatzlos gestrichen:\n- gegenüber den Liegenschaften Nrn. 15 und 15a, auf einer Länge von 16 m:\nParkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4052 unbeschränkt (bisher Parkieren verboten);\n- zwischen der Treppe Weidengasse und der Liegenschaft Nr. 15a, auf einer Länge von 25 m:\nParkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4052 unbeschränkt (bisher Parkieren verboten).\nDie übrigen Massnahmen der Verkehrsanordnung vom 17. September 2025 werden nicht in Wiedererwägung gezogen.",
   "3f1ad0e1-b247-48d2-bbd9-64add1e69938",
   "VE-BS40-0000001435"
@@ -1721,8 +1721,8 @@
   "Verkehrsanordnung Wettsteinallee, Rheinfelderstrasse, Turnerstrasse",
   "Wettsteinallee",
   "P",
-  "",
-  "Zur Reduktion des Durchgangsverkehrs und wegen der Einführung einer Velostrasse wird im Einklang mit der Petition P486 \"Einbahnregime Wettsteinallee zwischen Riehenring und Wettsteinplatz (Innere Wettsteinallee)\" folgende Verkehrsanordnung erlassen:\n- zwischen Wettsteinplatz und der Liegenschaft Nr. 61:\nEinbahnstrasse in Fahrtrichtung Kreisel Riehenring/Rührbergerstrasse mit Velogegenver-kehr (bisher Gegenverkehr).\nZur Reduktion des Durchgangsverkehrs und wegen der Einführung einer Velostrasse wird im Einklang mit der Petition P486 \"Einbahnregime Wettsteinallee zwischen Riehenring und Wettsteinplatz (Innere Wettsteinallee)\" folgende Verkehrsanordnung erlassen:\n- bei der Kreuzung Wettsteinallee, auf beiden Seiten:\nKein Vortritt (bisher Rechtsvortritt).\nZur Reduktion des Durchgangsverkehrs und wegen der Einführung einer Velostrasse wird im Einklang mit der Petition P486 \"Einbahnregime Wettsteinallee zwischen Riehenring und Wettsteinplatz (Innere Wettsteinallee)\" folgende Verkehrsanordnung erlassen:\n- bei der Einmündung in die Wettsteinallee:\nKein Vortritt (bisher Rechtsvortritt).",
+  "Zur Reduktion des Durchgangsverkehrs und wegen der Einführung einer Velostrasse",
+  "- zwischen Wettsteinplatz und der Liegenschaft Nr. 61:\nEinbahnstrasse in Fahrtrichtung Kreisel Riehenring/Rührbergerstrasse mit Velogegenver-kehr (bisher Gegenverkehr).\nZur Reduktion des Durchgangsverkehrs und wegen der Einführung einer Velostrasse wird im Einklang mit der Petition P486 \"Einbahnregime Wettsteinallee zwischen Riehenring und Wettsteinplatz (Innere Wettsteinallee)\" folgende Verkehrsanordnung erlassen:\n- bei der Kreuzung Wettsteinallee, auf beiden Seiten:\nKein Vortritt (bisher Rechtsvortritt).\nZur Reduktion des Durchgangsverkehrs und wegen der Einführung einer Velostrasse wird im Einklang mit der Petition P486 \"Einbahnregime Wettsteinallee zwischen Riehenring und Wettsteinplatz (Innere Wettsteinallee)\" folgende Verkehrsanordnung erlassen:\n- bei der Einmündung in die Wettsteinallee:\nKein Vortritt (bisher Rechtsvortritt).",
   "a4db3d3c-9db9-4779-94ac-f05fa87820e3",
   "VE-BS40-0000001399"
  ],
