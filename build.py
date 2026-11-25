@@ -166,6 +166,22 @@ def record_va(meta, text):
             streets, typ, reason, body, meta["id"]]
 
 
+REASON_START = re.compile(r"^\s*((?:Zwecks|Zur|Zum|Im Zusammenhang|Infolge|Aufgrund|Wegen|Für|Um)\b[^:]*?)\s*(?:,\s*)?(?:wird|werden)\b[^:]*:\s*", re.S)
+
+
+def fill_reason(r):
+    """Grund nachtragen, wenn er nicht im üblichen Satz «… wird folgende Verkehrsanordnung erlassen» steht."""
+    if r[1] != "VE40" or r[5].strip():
+        return r
+    m = REASON_START.match(r[6])
+    if m:
+        r[5] = m.group(1).strip().rstrip(",")
+        r[6] = r[6][m.end():].strip()
+    elif re.search(r"widerrufen|aufgehoben und ersetzt|wird aufgehoben", r[6], re.I):
+        r[5] = "Widerruf oder Korrektur einer früheren Verkehrsanordnung"
+    return r
+
+
 def project_text(text):
     m = re.search(r"Angaben zum Projekt:\s*([\s\S]*?)(?:\nGesuchsteller|\nAngaben zur Auflage|$)", text)
     if m:
@@ -304,6 +320,7 @@ def main():
             seen[key] = r
         merged.append(r)
     rows = merged
+    rows = [fill_reason(r) for r in rows]
     rows.sort(key=lambda r: r[0], reverse=True)
     latest = dt.date.fromisoformat(rows[0][0])
     stand = f"Kantonsblatt vom {DE_WD[latest.weekday()]}, {latest.day}. {DE_MO[latest.month - 1]} {latest.year}"
