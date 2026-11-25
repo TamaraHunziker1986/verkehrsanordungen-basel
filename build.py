@@ -27,7 +27,7 @@ BP_KEEP = re.compile(
     r"parkpl|parkfeld|parkier|autoabstell|abstellpl|einstellhalle|tiefgarage|garage|carport|"
     r"ladesäule|ladestation|elektroparkpl|e-mobilit|veloverleih|strassenlinie|änderung der baulinie|"
     r"fahrweg|fahrbahn|trottoir|bushaltestelle|\btram\b|tramlinie|eisenbahnrechtlich|"
-    r"umgestaltung der allmend|umgestaltung parkplatz|erschliessungsplan|verkehr|baumfäll|baumpflanz|strassenraum|baustelleninstall|gerüst",
+    r"umgestaltung der allmend|umgestaltung parkplatz|erschliessungsplan|verkehr|strassenraum|baustelleninstall|gerüst",
     re.I,
 )
 # Gesuche auf Allmend sind immer Strassenraum; nur Boulevard-Gastronomie weglassen
@@ -199,16 +199,31 @@ def record_bp(meta, text):
             streets, "", "", summary.strip(), meta["id"]]
 
 
+TREE = re.compile(r"baumfäll\w*|baumpflanz\w*|baumbestand\w*|bäume\w*|baum\w*", re.I)
+# "Verkehrssicherheit" bei Bäumen heisst Bruchgefahr, nicht Strassenverkehr
+TREE_NOISE = re.compile(r"verkehrssicherheit", re.I)
+
+
+def tree_only(text):
+    """True, wenn es nur um Bäume geht und kein Bezug zu Verkehr oder Strassenraum besteht."""
+    if not re.search(r"baumfäll", text, re.I):
+        return False
+    # Fällungen zur Pflege des Baumbestands (öffentliche Hand) sind Unterhalt, kein Verkehrsprojekt
+    if re.match(r"\s*Baumfällung", text, re.I) and re.search(r"Pflege und Erhalt", text, re.I):
+        return True
+    rest = TREE_NOISE.sub("", TREE.sub("", text))
+    return not BP_KEEP.search(rest)
+
+
 def keep_bp(meta, text):
-    title = meta["title"]["de"]
     proj = project_text(text)
+    title = meta["title"]["de"]
+    # Baumfällungen nur, wenn sie zu einem Verkehrs- oder Strassenprojekt gehören
+    if tree_only(title + "\n" + proj):
+        return False
     if meta["subRubric"] == "BP-BS20":
         return not BP_DROP.search(proj)
-    if re.match(r"^Baumfällung", title, re.I):
-        return True
-    # Private Bauprojekte: nur mit Parkierung, Garagen oder Strassenbezug
-    strong = re.sub(r"baumfäll\w*|baumpflanz\w*", "", proj, flags=re.I)
-    return bool(BP_KEEP.search(strong))
+    return bool(BP_KEEP.search(TREE_NOISE.sub("", proj)))
 
 
 def main():
@@ -250,7 +265,8 @@ def main():
     if old_file.exists():
         have = {r[7] for r in rows}
         for r in json.loads(old_file.read_text(encoding="utf-8")):
-            if r[7] not in have and r[0] >= since and r[1] != "VE50":
+            if r[7] not in have and r[0] >= since and r[1] != "VE50" \
+                    and not (r[1].startswith("BP") and tree_only(r[2] + "\n" + r[6])):
                 rows.append(r)
     # Erschliessung und Nutzung zum selben Ort zusammenfassen
     merged, seen = [], {}
