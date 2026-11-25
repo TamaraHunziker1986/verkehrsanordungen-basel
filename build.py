@@ -16,22 +16,24 @@ from pathlib import Path
 
 API = "https://www.kantonsblatt.ch/api/v1"
 ROOT = Path(__file__).resolve().parent
-MONTHS_BACK = 3
+START = "2026-01-01"  # fixer Startpunkt der Übersicht
 
-# Rubriken: Verkehrsanordnung, Strassenbau, Baupublikationen, Bau- und Nutzungsgesuch Allmend
-RUBRICS = ["VE-BS40", "VE-BS10", "BP-BS10", "BP-BS20"]
+# Rubriken: Verkehrsanordnung, weitere verkehrspolizeiliche Bekanntmachung, Strassenbau,
+# Baupublikationen, Bau- und Nutzungsgesuch Allmend
+RUBRICS = ["VE-BS40", "VE-BS50", "VE-BS10", "BP-BS10", "BP-BS20"]
 
 # Baupublikationen nur, wenn eines dieser Stichworte im Projekt vorkommt
 BP_KEEP = re.compile(
     r"parkpl|parkfeld|parkier|autoabstell|abstellpl|einstellhalle|tiefgarage|garage|carport|"
     r"ladesäule|ladestation|elektroparkpl|e-mobilit|veloverleih|strassenlinie|änderung der baulinie|"
     r"fahrweg|fahrbahn|trottoir|bushaltestelle|\btram\b|tramlinie|eisenbahnrechtlich|"
-    r"umgestaltung der allmend|umgestaltung parkplatz|erschliessungsplan|verkehr",
+    r"umgestaltung der allmend|umgestaltung parkplatz|erschliessungsplan|verkehr|baumfäll|baumpflanz|strassenraum|baustelleninstall|gerüst",
     re.I,
 )
-# Reine Baumfällungen, Wärmepumpen und Ähnliches weglassen
-BP_DROP_TITLE = re.compile(r"^Baumfällung", re.I)
-BP_DROP = re.compile(r"^\s*(baumfäll\w*|baumfällgesuch|boulevard\w*|provisorischer pausenplatz)\s*$", re.I)
+# Gesuche auf Allmend sind immer Strassenraum; nur Boulevard-Gastronomie weglassen
+BP_DROP = re.compile(r"boulevard|gartenwirtschaft|aussenbewirtung", re.I)
+# Baumfällungen bei privaten Bauprojekten betreffen den Verkehr nicht
+BP10_PUBLIC_TREES = re.compile(r"^Baumfällung|öffentlichen? Hand|Allmend|Strasse\b", re.I)
 
 DE_WD = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
 DE_MO = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
@@ -198,22 +200,19 @@ def record_bp(meta, text):
 
 
 def keep_bp(meta, text):
-    if BP_DROP_TITLE.match(meta["title"]["de"]):
-        return False
+    title = meta["title"]["de"]
     proj = project_text(text)
-    first = proj.split("\n")[0]
-    if BP_DROP.match(first):
-        return False
-    return bool(BP_KEEP.search(proj))
+    if meta["subRubric"] == "BP-BS20":
+        return not BP_DROP.search(proj)
+    if re.match(r"^Baumfällung", title, re.I):
+        return True
+    # Private Bauprojekte: nur mit Parkierung, Garagen oder Strassenbezug
+    strong = re.sub(r"baumfäll\w*|baumpflanz\w*", "", proj, flags=re.I)
+    return bool(BP_KEEP.search(strong))
 
 
 def main():
-    today = dt.date.today()
-    y, m = today.year, today.month - MONTHS_BACK
-    while m <= 0:
-        m += 12
-        y -= 1
-    since = dt.date(y, m, 1).isoformat()
+    since = START
     rows = []
     for sub in RUBRICS:
         pubs = list_pubs(sub, since)
@@ -227,6 +226,14 @@ def main():
                 continue
             if sub == "VE-BS40":
                 rows.append(record_va(meta, text))
+            elif sub == "VE-BS50":
+                # Verwertungsverfügungen enthalten Personendaten und betreffen den Verkehr nicht
+                if re.search(r"Verwertung|Abholaufforderung", meta["title"]["de"] + text, re.I):
+                    continue
+                r = record_bp(meta, text)
+                if not r[3]:
+                    r[3] = clean_streets([meta["title"]["de"].split(",")[0]], place_suffix(meta["title"]["de"]))
+                rows.append(r)
             elif sub == "VE-BS10":
                 r = record_bp(meta, text)
                 if not r[3]:

@@ -102,7 +102,7 @@ footer p{max-width:80ch}
 </main>
 <footer class="band">
  <div class="wrap">
-  <p>Quelle: Kantonsblatt Basel-Stadt (kantonsblatt.ch), Rubriken «Verkehrsanordnung», «Strassenbau», «Baupublikationen» und «Bau- und Nutzungsgesuch Allmend». Baupublikationen sind nur aufgeführt, wenn sie Parkplätze, Garagen, Strassenraum oder Verkehr betreffen. Rechtsverbindlich ist allein die Publikation im Kantonsblatt.</p>
+  <p>Quelle: Kantonsblatt Basel-Stadt (kantonsblatt.ch), Rubriken «Verkehrsanordnung», «Weitere verkehrspolizeiliche Bekanntmachung», «Strassenbau», «Baupublikationen» und «Bau- und Nutzungsgesuch Allmend». Aufgeführt sind alle Gesuche auf Allmend (ohne Boulevard-Gastronomie), Baumfällungen der öffentlichen Hand sowie Baupublikationen, die Parkplätze, Garagen, Strassenraum oder Verkehr betreffen. Verwertungsverfügungen der Verkehrspolizei sind nicht aufgeführt. Rechtsverbindlich ist allein die Publikation im Kantonsblatt.</p>
   <p>Die Meter- und Parkplatzangaben zur Blauen Zone sind aus den Längenangaben der Anordnungen zusammengezählt und als Schätzung zu lesen (rund 5,5 m pro Parkplatz).</p>
   <p id="stand"></p>
   <p>Die Seite wird jeden Mittwoch und Samstag automatisch mit der neuen Ausgabe des Kantonsblatts aktualisiert.</p>
@@ -131,6 +131,7 @@ const CATS = [
  {k:'oev', n:'Bus und Tram', re:/Buslinie|Bushaltestelle|Tram/},
  {k:'park', n:'Parkplätze in Bauprojekten', re:/Parkpl|Garage|Autoeinstellhalle/},
  {k:'bau', n:'Strassenraum und Allmend', re:/Allmend|Strassenlinie|Fahrweg|Fahrbahn|Trottoir|Erschliessungsplan/},
+ {k:'baum', n:'Baumfällungen und Bäume', re:/Baumfäll|Baumpflanz|Baumrabatt/},
  {k:'temp', n:'Temporäre Massnahmen', re:null}
 ];
 
@@ -149,6 +150,7 @@ const sign = k => {
   case 'fahr': return rnd('#fff', '');
   case 'oev': return `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="#f2c200"/><rect x="6" y="5" width="12" height="11" rx="2" fill="#1b1300"/><rect x="8" y="7" width="8" height="4" fill="#f2c200"/><circle cx="8.5" cy="18.5" r="1.6" fill="#1b1300"/><circle cx="15.5" cy="18.5" r="1.6" fill="#1b1300"/></svg>`;
   case 'park': return sq(P.replace('fill="#fff">P', 'fill="#fff">P') + '<rect x="15" y="15" width="6" height="6" rx="1" fill="#f2a516"/>');
+  case 'baum': return `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="#24a84a"/><circle cx="12" cy="9.5" r="6" fill="#fff"/><rect x="11" y="14" width="2" height="6" fill="#fff"/></svg>`;
   case 'bau': case 'temp': return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l11 19H1z" fill="#fff" stroke="${R}" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 18h8M12 9v6" stroke="#0f1d2e" stroke-width="2"/></svg>`;
  }
  return '';
@@ -176,6 +178,7 @@ const parseItems = m => m.split(/\n\s*-\s*|^\s*-\s*/).map(t => t.trim()).filter(
  return { loc, neu, old, lost, gain };
 });
 
+const LABEL = {VE40:'Verkehrsanordnung', VE50:'Verkehrspolizei', VE10:'Strassenbau', BP10:'Baupublikation', BP20:'Allmend'};
 const DATA = RAW.map(([d, r, t, s, typ, g, m, id]) => {
  const va = r === 'VE40';
  const items = va ? parseItems(m) : [{ loc: '', neu: m, old: '', lost: 0, gain: 0 }];
@@ -185,7 +188,7 @@ const DATA = RAW.map(([d, r, t, s, typ, g, m, id]) => {
  if (!cats.length) cats.push(va ? 'verbot' : 'bau');
  const gem = /Riehen/.test(t + s) ? 'Riehen' : /Bettingen/.test(t + ' ' + s) && !/Basel, Bettingen/.test(t) ? 'Bettingen' : 'Basel';
  const streets = s.split(/,\s*/).map(x => x.replace(/\s*\((Riehen|Bettingen)\)/, '').trim()).filter(Boolean);
- return { d, va, t, streets, g, items, id, cats, gem, lost: items.reduce((a, i) => a + i.lost, 0), gain: items.reduce((a, i) => a + i.gain, 0), hay: (t + ' ' + s + ' ' + g + ' ' + m).toLowerCase() };
+ return { d, r, va, t, streets, g, items, id, cats, gem, lost: items.reduce((a, i) => a + i.lost, 0), gain: items.reduce((a, i) => a + i.gain, 0), hay: (t + ' ' + s + ' ' + g + ' ' + m).toLowerCase() };
 }).sort((a, b) => b.d.localeCompare(a.d));
 
 const card = e => {
@@ -193,7 +196,7 @@ const card = e => {
  const li = i => `<li>${i.loc ? `<span class="loc">${esc(i.loc)}</span>` : ''}${esc(i.neu)}${i.old ? ` <span class="old">(bisher ${esc(i.old)})</span>` : ''}</li>`;
  const net = e.lost - e.gain;
  return `<article class="card">
-  <div class="meta"><time datetime="${e.d}">${dShort(e.d)}</time><span class="pill ${e.va ? 'p-va' : 'p-bp'}">${e.va ? 'Verkehrsanordnung' : 'Bau / Allmend'}</span>${e.cats.includes('temp') ? '<span class="pill p-t">temporär</span>' : ''}<span>${esc(e.gem)}</span></div>
+  <div class="meta"><time datetime="${e.d}">${dShort(e.d)}</time><span class="pill ${e.va || e.r === 'VE50' ? 'p-va' : 'p-bp'}">${esc(LABEL[e.r] || 'Bau / Allmend')}</span>${e.cats.includes('temp') ? '<span class="pill p-t">temporär</span>' : ''}<span>${esc(e.gem)}</span></div>
   <h3>${esc(e.va ? (e.streets.join(', ') || e.t) : e.t)}</h3>
   ${e.g ? `<p class="why">${esc(e.g)}</p>` : ''}
   <div class="tags">${e.cats.map(k => `<span class="tag">${sign(k)}${esc(CATS.find(c => c.k === k).n)}</span>`).join('')}</div>
@@ -244,7 +247,7 @@ const va = DATA.filter(e => e.va);
 const lost = va.reduce((a, e) => a + e.lost, 0), gain = va.reduce((a, e) => a + e.gain, 0);
 const latest = DATA[0].d;
 const latestN = DATA.filter(e => e.d === latest).length;
-$('lead').textContent = `Alle Verkehrsanordnungen seit ${dShort(SINCE)} und die Baupublikationen, die Parkplätze, Strassenraum oder Verkehr betreffen. Neueste Ausgabe: ${dLong(latest)} mit ${latestN} ${latestN === 1 ? 'Meldung' : 'Meldungen'}.`;
+$('lead').textContent = `Alle Verkehrsanordnungen seit ${dShort(SINCE)} und alle Bau- und Allmendgesuche, die Parkplätze, Strassenraum, Bäume oder Verkehr betreffen. Neueste Ausgabe: ${dLong(latest)} mit ${latestN} ${latestN === 1 ? 'Meldung' : 'Meldungen'}.`;
 const streetsN = new Set(va.flatMap(e => e.streets)).size;
 const k = [
  [va.length, 'Verkehrsanordnungen'],
