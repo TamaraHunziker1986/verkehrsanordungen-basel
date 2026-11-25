@@ -229,6 +229,8 @@ def main():
                 rows.append(record_va(meta, text))
             elif sub == "VE-BS10":
                 r = record_bp(meta, text)
+                if not r[3]:
+                    r[3] = clean_streets([meta["title"]["de"].split(",")[0]], place_suffix(meta["title"]["de"]))
                 rows.append(r)
             elif keep_bp(meta, text):
                 rows.append(record_bp(meta, text))
