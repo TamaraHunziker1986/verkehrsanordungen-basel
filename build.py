@@ -244,6 +244,14 @@ def main():
             time.sleep(0.15)
     if not rows:
         sys.exit("Keine Daten erhalten, Seite bleibt unverändert.")
+    # Das Kantonsblatt nimmt Baupublikationen nach Ablauf der Frist vom Netz.
+    # Frühere Einträge deshalb aus dem letzten Lauf übernehmen, damit nichts verloren geht.
+    old_file = ROOT / "docs" / "data.json"
+    if old_file.exists():
+        have = {r[7] for r in rows}
+        for r in json.loads(old_file.read_text(encoding="utf-8")):
+            if r[7] not in have and r[0] >= since and r[1] != "VE50":
+                rows.append(r)
     # Erschliessung und Nutzung zum selben Ort zusammenfassen
     merged, seen = [], {}
     for r in rows:
