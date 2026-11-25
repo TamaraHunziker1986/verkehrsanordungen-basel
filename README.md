@@ -7,7 +7,9 @@
 - Alle Verkehrsanordnungen ab dem 1. Januar 2026 (Rubrik VE-BS40).
 - Strassenbau-Publikationen (VE-BS10).
 - Alle Bau- und Nutzungsgesuche auf Allmend (BP-BS20), ausser Boulevard-Gastronomie.
-- Baupublikationen (BP-BS10), wenn es um Baumfällungen der öffentlichen Hand, Parkplätze, Garagen, Einstellhallen, Ladestationen, Strassenlinien oder Strassenraum geht.
+- Baupublikationen (BP-BS10), wenn es um Parkplätze, Garagen, Einstellhallen, Ladestationen, Strassenlinien oder Strassenraum geht.
+- Baumfällungen nur, wenn sie zu einem Verkehrs- oder Strassenprojekt gehören. Fällungen zur Pflege des Baumbestands sind nicht aufgeführt.
+- Parkplatzzahlen sind aus den Längenangaben geschätzt (5,5 m pro Parkplatz).
 - Die Rubrik «Weitere verkehrspolizeiliche Bekanntmachung» (VE-BS50) wird abgefragt. Verwertungsverfügungen für abgestellte Fahrzeuge werden bewusst weggelassen, weil sie Personendaten enthalten und den Verkehr nicht betreffen. Bis November 2026 enthielt die Rubrik nur solche Verfügungen.
 
 ## Bekannte Lücken
