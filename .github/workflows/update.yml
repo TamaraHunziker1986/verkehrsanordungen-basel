@@ -1,0 +1,33 @@
+name: Kantonsblatt aktualisieren
+
+on:
+  schedule:
+    # Mittwoch und Samstag, 06:17 und 10:17 UTC (Kantonsblatt erscheint am Morgen)
+    - cron: "17 6,10 * * 3,6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Daten holen und Seite bauen
+        run: python build.py
+      - name: Änderungen speichern
+        run: |
+          git config user.name "kantonsblatt-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs
+          git diff --cached --quiet && echo "Keine Änderungen" && exit 0
+          git commit -m "Update Kantonsblatt $(date +%Y-%m-%d)"
+          git push

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verkehrsanordnungen Basel-Stadt</title>
+<style>
+/*
+VOICE: sachlich wie ein Amtsblatt-Register, im Auftritt des Gewerbeverbands Basel-Stadt
+IDEA: Register mit Strassensignalen, Kopf wie ein GVBS-Politik-Sujet
+PICTURE: dunkelblaue Kopftafel mit Kennzahlen und Politik-Verlaufsbalken (Dunkelblau, Hellblau, Orange-Rot)
+COLOUR and TYPE: CI-Manual 3.3 und 3.4: #31287c, #4f8fcc, #8ebee7, #c9e1f6, Akzent #e94d25, Gelb #ffd300; Hausschrift Tahoma, keine Versalien, Hervorhebung nur fett
+LAYOUT: Kopfband, Steuerleiste, Register in Gruppen, Fussnote mit Quelle
+*/
+:root{color-scheme:light dark;--bg:light-dark(#fff,#15123a);--card:light-dark(#fff,#1f1b4d);--ink:light-dark(#222222,#eef2fb);--mut:light-dark(#575756,#b2b2b2);--line:light-dark(#e3e3e3,#3a3470);--blue:#31287c;--blue2:light-dark(#31287c,#8ebee7);--red:#e94d25;--soft:light-dark(#c9e1f6,#2b2766);--yel:#ffd300}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Tahoma,Verdana,'Segoe UI',sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,52px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+header.band{background:var(--blue);color:#fff;padding-bottom:clamp(22px,3vw,36px)}
+.grad{height:10px;background:linear-gradient(90deg,#31287c,#4f8fcc 55%,#e94d25)}
+.org{font-weight:700;font-size:15px;margin:0 0 14px;color:#8ebee7}
+h1{font:700 clamp(30px,4.6vw,46px)/1.1 Tahoma,Verdana,sans-serif;margin:0 0 8px;text-wrap:balance}
+.lead{margin:0;max-width:68ch;color:#c9e1f6}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:12px;margin-top:22px}
+.kpi{border:2px solid #4f8fcc;border-radius:10px;padding:12px 14px;background:rgba(79,143,204,.12)}
+.kpi b{display:block;font:700 clamp(28px,4vw,38px)/1 Tahoma,Verdana,sans-serif}
+.kpi span{font-size:14px;color:#c9e1f6}
+.kpi.red{border-color:#e94d25;background:rgba(233,77,37,.14)}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px max(5vw,16px)}
+.seg{display:flex;border:2px solid var(--blue2);border-radius:10px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;padding:0 16px;min-height:42px;display:flex;align-items:center;font:600 16px Tahoma,Verdana,sans-serif;color:var(--blue2)}
+.seg button[aria-pressed=true]{background:var(--blue2);color:light-dark(#fff,#0d1520)}
+.seg button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+input[type=search],select{font:16px Tahoma,Verdana,sans-serif;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+input[type=search]{flex:1 1 220px}
+.count{font-size:14px;color:var(--mut);margin-left:auto}
+main{padding-top:20px}
+.jump{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 14px}
+.jump a{min-width:32px;height:32px;display:grid;place-items:center;border-radius:6px;background:var(--soft);color:var(--blue2);text-decoration:none;font-weight:600}
+h2{font:600 26px/1.1 Tahoma,Verdana,sans-serif;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink);display:flex;gap:10px;align-items:center}
+h2 small{font:400 14px Tahoma,Verdana,sans-serif;color:var(--mut);margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:14px;color:var(--mut)}
+.meta time{white-space:nowrap;font-weight:600;color:var(--ink)}
+.card h3{margin:0;font:600 20px/1.2 Tahoma,Verdana,sans-serif}
+.why{margin:0;font-size:15px;color:var(--mut)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:2px 8px 2px 3px;border-radius:99px;background:var(--soft)}
+.tag svg{width:20px;height:20px;flex:none}
+ul.ms{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+ul.ms li{border-left:3px solid #4f8fcc;padding-left:10px;font-size:15px}
+ul.ms .loc{display:block;font-size:13.5px;color:var(--mut)}
+ul.ms .old{color:var(--mut)}
+.pill{font-size:12.5px;font-weight:600;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.p-va{background:var(--blue);color:#fff}.p-bp{background:var(--yel);color:#222}.p-t{background:var(--red);color:#fff}
+.loss{font-size:13px;color:var(--red);font-weight:600}
+a.src{font-size:14px;color:var(--blue2);font-weight:600;margin-top:auto}
+details.more summary{cursor:pointer;color:var(--blue2);font-size:14px;font-weight:600}
+.empty{padding:40px 0;color:var(--mut)}
+footer{color:var(--mut);font-size:14px}
+footer p{max-width:80ch}
+@media(max-width:600px){.count{margin-left:0;width:100%}.seg{width:100%}.seg button{flex:1;justify-content:center;padding:0 6px}}
+@media(prefers-reduced-motion:no-preference){.card{animation:in .25s ease both}@keyframes in{from{opacity:0;transform:translateY(4px)}}}
+</style>
+</head>
+<body>
+<header class="band">
+ <div class="wrap">
+  <p class="org">Gewerbeverband Basel-Stadt · Politik</p>
+  <h1>Verkehrsanordnungen und Bauprojekte im Kantonsblatt Basel-Stadt</h1>
+  <p class="lead" id="lead"></p>
+  <div class="kpis" id="kpis"></div>
+ </div>
+</header>
+<div class="grad" aria-hidden="true"></div>
+<div class="bar">
+ <div class="wrap">
+  <div class="seg" role="group" aria-label="Ansicht">
+   <button id="v-datum" data-v="datum">Nach Datum</button>
+   <button id="v-strasse" data-v="strasse">Nach Strasse</button>
+   <button id="v-massnahme" data-v="massnahme">Nach Massnahme</button>
+  </div>
+  <input type="search" id="q" placeholder="Strasse oder Stichwort suchen" aria-label="Suche">
+  <select id="src" aria-label="Quelle">
+   <option value="">Alle Publikationen</option>
+   <option value="va">Nur Verkehrsanordnungen</option>
+   <option value="bp">Nur Bauprojekte und Allmend</option>
+  </select>
+  <select id="gem" aria-label="Gemeinde">
+   <option value="">Alle Gemeinden</option>
+   <option>Basel</option><option>Riehen</option><option>Bettingen</option>
+  </select>
+  <span class="count" id="count"></span>
+ </div>
+</div>
+<main class="band" style="padding-top:8px">
+ <div class="wrap" id="out"></div>
+</main>
+<footer class="band">
+ <div class="wrap">
+  <p>Quelle: Kantonsblatt Basel-Stadt (kantonsblatt.ch), Rubriken «Verkehrsanordnung», «Strassenbau», «Baupublikationen» und «Bau- und Nutzungsgesuch Allmend». Baupublikationen sind nur aufgeführt, wenn sie Parkplätze, Garagen, Strassenraum oder Verkehr betreffen. Rechtsverbindlich ist allein die Publikation im Kantonsblatt.</p>
+  <p>Die Meter- und Parkplatzangaben zur Blauen Zone sind aus den Längenangaben der Anordnungen zusammengezählt und als Schätzung zu lesen (rund 5,5 m pro Parkplatz).</p>
+  <p id="stand"></p>
+  <p>Die Seite wird jeden Mittwoch und Samstag automatisch mit der neuen Ausgabe des Kantonsblatts aktualisiert.</p>
+ </div>
+</footer>
+<script>
+{
+const STAND = "Kantonsblatt vom Mittwoch, 25. November 2026";
+const SINCE = "2026-09-01";
+const RAW = [["2026-11-25", "VE40", "Verkehrsanordnung Blochmonterstrasse", "Blochmonterstrasse", "P", "Zwecks Verbesserung der Verkehrssicherheit", "- gegenüber der Liegenschaft Nr. 15, auf einer Länge von 5 m:\nParkfeld „Velos/Motos“ (bisher Blaue Zone).", "36b5155a-3eb2-47bc-abcd-917f09aae6f6"], ["2026-11-11", "VE40", "Verkehrsanordnung Wintersingerweg", "Wintersingerweg", "P", "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund", "- vor den Liegenschaften Nrn. 8 und 10, auf einer Länge von 12 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone);\n - vor der Liegenschaft Nr. 8, auf einer Länge von 1.6 m:\nParkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone, neu Elektroladestation).", "48d5209a-205c-4759-9bac-b52a30a4792e"], ["2026-11-11", "VE40", "Verkehrsanordnung Blumengasse", "Blumengasse", "P", "Zwecks Verbesserung der Abstellmöglichkeiten für Velos", "- vor der Liegenschaft Nr. 5, auf einer Länge von 10 m:\n Parkfeld „Velos“ (bisher Parkieren verboten); \n- auf der Rückseite der Liegenschaft Blumenrain Nr. 1, auf einer Länge von 4 m:\n Parkfeld „Velos“ (bisher Parkieren verboten).", "a399caea-7790-4baf-ad6a-4d9c681e5bc3"], ["2026-11-11", "VE40", "Verkehrsanordnung Badenweilerstrasse", "Badenweilerstrasse", "P", "Zwecks Verbesserung der Verkehrssicherheit und Freihalten der Durchfahrten, unter anderem für die Feuerwehr,", "- links und rechts der Einstellhallen- und Hofzufahrt bei der Liegenschaft Nr. 24, auf einer Länge von 2 x 3 m:\n Halteverbotslinie (bisher Parkieren verboten 3 m und Parkverbotslinie 3 m); \n- vor der Liegenschaft Nr. 24, auf einer Länge von 3 m:\nParkverbotslinie (bisher Blaue Zone); \n- gegenüber der Einstellhallen- und Hofzufahrt der Liegenschaft Nr. 24, auf einer Länge von 16 m:\n Halteverbotslinie (bisher Parkieren verboten); \n- gegenüber der Eckliegenschaft Erikastrasse Nr. 1, auf einer Länge von 3,2 m und 1,8 m:\n Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4057 unbeschränkt (bisher Parkieren verboten).", "7daf7d75-daa2-4c92-b4a6-15442d6f1a22"], ["2026-11-11", "VE40", "Verkehrsanordnung Sperrstrasse", "Sperrstrasse", "P", "Zwecks Einrichtung eines Parkfelds für mobilitätseingeschränkte Personen", "- vor der Liegenschaft Nr. 108, auf einer Länge von 6 m:\n Parkfeld „Gehbehinderte“ (bisher Blaue Zone).", "5412768b-0b75-40a0-8583-5c8f8edc7dfc"], ["2026-11-11", "VE40", "Verkehrsanordnung Alemannengasse, Römergasse", "Alemannengasse, Römergasse", "P", "Zwecks Verbesserung der Verkehrssicherheit", "- vor der Liegenschaft Nr. 15, auf einer Länge von 6,5 m:\n Halteverbotslinie (bisher Blaue Zone 5,4 m und Parkieren verboten 1,1 m).\n- seitlich der Eckliegenschaft Alemannengasse Nr. 14, auf einer Länge von 5 m:\n Halteverbotslinie (bisher Blaue Zone 3,2 m und Parkieren verboten 1,8 m); \n- seitlich der Eckliegenschaft Alemannengasse Nr. 17, auf einer Länge von 2,5 m:\n Halteverbotslinie (bisher Parkieren verboten).", "8680c101-3371-40eb-b372-eb0479758eb1"], ["2026-11-11", "VE40", "Verkehrsanordnung Neuhausstrasse", "Neuhausstrasse", "P", "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund", "- vor der Liegenschaft Nr. 10, auf einer Länge von 12 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).", "7af80cf0-6daa-4545-8667-579377ed85e2"], ["2026-11-11", "VE40", "Verkehrsanordnung Haltingerstrasse", "Haltingerstrasse", "P", "Zwecks Verbesserung der Verkehrssicherheit sowie Optimierung der Abstellmöglichkeiten für Velos", "- vor der Liegenschaft Nr. 40, auf einer Länge von 5 m:\n Parkfeld „Velos“ (bisher Parkieren verboten, Parkieren gestattet Mo-Do 18:00-07:00 Uhr und Fr 18:00 Uhr - Mo 07:00 Uhr).", "c57ffa0c-ec52-46a0-b725-f2566f01e1bf"], ["2026-11-04", "VE40", "Verkehrsanordnung St. Jakobs-Strasse", "St. Jakobs-Strasse", "P", "Zur Verhinderung der regelmässigen Befahrung der Baumstammfüsse und der starken Verdichtung des Bodens", "- seitlich der Liegenschaft Nr. 377, auf einer Länge von 4 m:\n Parkfeld „Velos“ (bisher Blaue Zone, Schrägparkierung 3 m);\n - seitlich der Liegenschaft Nr. 377, auf einer Länge von 7,5 m:\n Parkieren verboten aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone, neu Grünfläche).", "dc3dc588-e8bf-42a5-a16b-caf9d9f93b5f"], ["2026-11-04", "VE40", "Verkehrsanordnung Hüningerstrasse", "Hüningerstrasse", "P", "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund", "- gegenüber der Liegenschaft Nr. 68, auf einer Länge von 1 m:\n Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4056 unbeschränkt (bisher Halten verboten); \n- gegenüber den Liegenschaften Nrn. 68 und 70, auf einer Länge von 12 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).", "7de3bbf3-b5bf-4b38-b101-f6b43d4cd5ed"], ["2026-10-31", "VE40", "Baubedingte Massnahmen Binningerstrasse, zwischen Erdbeergraben und Margarethenstich", "Binningerstrasse", "T", "Infolge Neubaus des Parkhauses Zoo unter dem Erdbeergraben", "Einbahnregime in Fahrtrichtung Binningen mit Gegenverkehr von Radfahrern vom Juli 2026 bis ca. Mai 2027 (Einbahnstrasse mit Gegenverkehr von Radfahrern). Die aufschiebende Wirkung eines allfälligen Rekurses wird entzogen.", "eb2e80ff-0b43-4f55-b0c8-97680f502ded"], ["2026-10-28", "VE40", "Verkehrsanordnung In den Klostermatten", "In den Klostermatten, Hechtweg", "P", "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund", "- vor der Liegenschaft Nr. 23 und seitlich der Liegenschaft Hechtweg Nr. 18, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone); \n- seitlich der Liegenschaft Hechtweg Nr. 18, auf einer Länge von 3,2 m:\nHalteverbotslinie (bisher Blaue Zone); \n- seitlich der Liegenschaft Hechtweg Nr. 18, auf einer Länge von 1,6 m:\nParkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone, neu Elektroladestation).", "d3bf659a-65d3-437f-b7a6-d4c187f83a37"], ["2026-10-28", "VE40", "Verkehrsanordnung St. Galler-Ring", "St. Galler-Ring", "P", "Zwecks Verbesserung der Verkehrssicherheit auf Velorouten", "- vor den Liegenschaften Nrn. 91-97, auf einer Länge von 28 m:\n Parkieren verboten (bisher Blaue Zone); \n- seitlich der Eckliegenschaft Gottfried Keller-Strasse Nr. 1 und vor den Liegenschaften Nrn. 142 und 144, auf einer Länge von 22 m:\n Parkieren verboten (bisher Blaue Zone); \n- vor den Liegenschaften Nrn. 148-152, auf einer Länge von 22 m:\n Parkieren verboten (bisher Blaue Zone).", "c0558f14-d932-4fde-ad4f-7d882776fb9f"], ["2026-10-21", "VE40", "Verkehrsanordnung Benkenstrasse", "Benkenstrasse", "P", "Im Zusammenhang mit der Oberflächenneugestaltung der Benkenstrasse sowie zwecks Verbesserung der Verkehrssicherheit", "- vor den Liegenschaften Nrn. 40 und 42, auf einer Länge von 3,4 m:\n Parkieren verboten (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 48, auf einer Länge von 1,7 m:\n Parkieren verboten (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 58, auf einer Länge von 5 m:\n Parkfeld „Velos/Motos“ (bisher Blaue Zone); \n- seitlich der Liegenschaft Oberwilerstrasse Nr. 94, auf einer Länge von 6 m:\n Halteverbotslinie (bisher Blaue Zone 3 m und Parkieren verboten 3 m).", "1b3821b1-aa0c-4214-8f55-05dae4341095"], ["2026-10-21", "VE40", "Verkehrsanordnung Schützengasse, Riehen", "Schützengasse (Riehen)", "P", "", "Vor der Liegenschaft Nr. 60, auf einer Länge von 16 m: Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4125 unbeschränkt (bisher Parkieren verboten).", "89aee21a-462b-4abd-b5c7-c393ddb405db"], ["2026-10-21", "VE40", "Verkehrsanordnung Aescherstrasse", "Aescherstrasse, Kluserstrasse", "P", "Im Zusammenhang mit der Umgestaltung der Begegnungszone", "- seitlich der Liegenschaft Kluserstrasse Nr. 28, auf einer Länge von 1 m:\n Parkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Parkfeld „Lastenvelos“, Verschiebung Eingangstor Begegnungszone); \n- seitlich der Liegenschaft Kluserstrasse Nr. 28, auf einer Länge von 1 m:\n Parkfeld „Lastenvelos“ (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 19, auf einer Länge von 2 m:\n Parkieren verboten (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 25, auf einer Länge von 2 m:\n Parkieren verboten (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 29, auf einer Länge von 2 m:\n Parkfeld „Velos/Motos“ (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 29, auf einer Länge von 2 m:\n Parkieren verboten (bisher Parkfeld „Velos/Motos“).", "e9de8fb0-8307-4d3d-a4e4-ed11657ab96f"], ["2026-10-21", "VE40", "Verkehrsanordnung Furkastrasse", "Furkastrasse", "P", "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund und infolge Aufhebung des Carsharing-Standorts", "- seitlich der Eckliegenschaft Neuweilerstrasse Nr. 40, auf einer Länge von 5 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Carsharing-Standort).", "7fb0d1b2-959d-4c6c-9b51-eb8c09510465"], ["2026-10-14", "VE40", "Verkehrsanordnung Neuhausstrasse", "Neuhausstrasse, Freiburgerstrasse", "P", "Im Zusammenhang mit der geplanten Verlängerung der Buslinie 46 via Otterbach Grenze ans Dreiländereck", "- im Bereich der Liegenschaft Freiburgerstrasse Nr. 79, auf einer Länge von 20 m:\n Zickzacklinie; \n- vor der Liegenschaft Nr. 100 leicht versetzt auf beiden Strassenseiten, auf einer Länge von je 20 m:\n Zickzacklinie (bisher Parkieren verboten).", "5726f1fc-2c77-4f8c-9151-4a95a674dc47"], ["2026-10-14", "VE40", "Verkehrsanordnung Grienbodenweg, Riehen", "Grienbodenweg (Riehen)", "P", "", "Ganze Strasse: Begegnungszone (bisher Tempo 30-Zone).", "e2589283-5829-4b31-baef-5918aae9729c"], ["2026-10-14", "VE40", "Verkehrsanordnung Meierweg, Riehen", "Meierweg (Riehen)", "P", "", "Abschnitt Rebenstrasse bis Kilchgrundstrasse: Begegnungszone (bisher Tempo 30-Zone),\nAbschnitt Paradiesstrasse bis Liegenschaft 52: Verbot für Motorwagen und Motorräder, Zubringerdienst gestattet (bisher Verbot für Motorwagen und Motorräder, Anwänderverkehr gestattet),\nAbschnitt Liegenschaft 50 bis Rebenstrasse in Fahrtrichtung Rebenstrasse: Verbot für Motorwagen und Motorräder (bisher Verbot für Motorwagen und Motorräder, Anwänderverkehr gestattet),\nAbschnitt Rebenstrasse bis Bettingerstrasse: Verbot für Motorwagen und Motorräder, Zubringerdienst gestattet (bisher Verbot für Motorwagen und Motorräder, Zufahrt für Berechtigte gestattet).", "b222cd26-8fcc-4afe-b028-159e97d5d6aa"], ["2026-10-14", "VE40", "Verkehrsanordnung Zu den drei Linden", "Zu den drei Linden", "P", "Zwecks Verbesserung der Schulwegsicherheit", "- zwischen Bäumlihofstrasse und Olsbergerweg:\nVerbot für Motorwagen und Motorräder; Montag - Freitag 07:30-08:15 Uhr und 12:00-12:45 Uhr; Schulbusse, Gehbehinderte, Rettung und KKO gestattet.", "03fc4991-1aab-4701-93de-40ad54a7fe86"], ["2026-10-14", "VE40", "Verkehrsanordnung Breisacherstrasse", "Breisacherstrasse", "P", "Zwecks Verbesserung der Verkehrssicherheit", "- Im Bereich der Einmündung in den Klingentalgraben, auf einer Länge von 5,5 m:\n Halteverbotslinie (bisher Parkieren verboten).", "d271edb7-02cf-4589-a746-58859a325cb4"], ["2026-10-14", "VE40", "Verkehrsanordnung Westquaistrasse", "Westquaistrasse", "P", "Im Zusammenhang mit der geplanten Verlängerung der Buslinie 46 via Otterbach Grenze ans Dreiländereck", "- vor der Liegenschaft Nr. 12, auf einer Länge von 20 m:\n Zickzacklinie; \n- in der Parkbucht gegenüber der Liegenschaft Nr. 12, auf einer Länge von 20 m:\n Zickzacklinie (bisher Parkieren gegen Gebühr, ausgenommen mit Bewilligung der Schweizerischen Rheinhäfen 26 m);\n- gegenüber der Liegenschaft Nr. 60 entlang des Rheinbords, auf einer Länge von 24 m:\n Zickzacklinie (bisher 8 Schrägparkfelder, Parkieren gegen Gebühr, ausgenommen mit Bewilligung der Schweizerischen Rheinhäfen);\n - gegenüber der Liegenschaft Nr. 60 im Mittelbereich, auf einer Länge von 2 x 10 m und 1 x 5 m:\n 5 Längsparkfelder, Parkieren gegen Gebühr, ausgenommen mit Bewilligung der Schweizerischen Rheinhäfen (bisher 10 Schrägparkfelder, Parkieren gegen Gebühr, ausgenommen mit Bewilligung der Schweizerischen Rheinhäfen); \n- gegenüber der Liegenschaft Nr. 60 im Mittelbereich, auf einer Länge von 5,5 m:\n Halteverbotslinie (bisher 2 Schrägparkfelder, Parkieren gegen Gebühr, ausgenommen mit Bewilligung der Schweizerischen Rheinhäfen).", "204ca336-bda4-462f-9960-61e8df3fdcf9"], ["2026-10-14", "VE40", "Verkehrsanordnung Bärenfelserstrasse, Leuengasse", "Bärenfelserstrasse, Leuengasse", "P", "Zwecks Verbesserung der Verkehrssicherheit", "- Seitlich der Eckliegenschaft Leuengasse Nr. 25, auf einer Länge von 2,1 m:\n Halteverbotslinie (bisher Blaue Zone 1,8 m und Parkieren verboten 0.3 m).\n- Vor der Liegenschaft Nr. 25, auf einer Länge von 3,5 m:\n Halteverbotslinie (bisher Blaue Zone).", "9eabc124-631f-4cfb-8d2b-b6bd686e9fa0"], ["2026-10-14", "VE40", "Verkehrsanordnung Hochbergerstrasse", "Hochbergerstrasse", "P", "Im Zusammenhang mit der geplanten Verlängerung der Buslinie 46 via Otterbach Grenze ans Dreiländereck", "- vor den Liegenschaften Nrn. 136 und 138, auf einer Länge von 20 m:\n Zickzacklinie (bisher Parkieren verboten); \n- im Anschluss an die Fussgängerinsel im Bereich der Liegenschaften Nrn. 136 und 138, auf einer Länge von 15 m:\n Sperrfläche.", "9f957d86-3846-4431-b45b-f8fca8396aee"], ["2026-10-14", "VE40", "Verkehrsanordnung Kirchgasse", "Kirchgasse", "P", "Zwecks Verbesserung der Abstellmöglichkeiten für Velos und Motorräder", "- vor der Liegenschaft Nr. 2, auf einer Länge von 5 m:\n Parkfeld „Velos/Motos“ (bisher Parkieren gegen Gebühr).", "76c8eecc-684c-4364-aee0-cd82a972558a"], ["2026-10-14", "VE40", "Verkehrsanordnung Rebenstrasse, Riehen", "Rebenstrasse (Riehen)", "P", "", "Abschnitt Burgstrasse bis Meierweg: Begegnungszone (bisher Tempo 30-Zone).", "e2c0663a-274a-45a3-bf33-472a272e063f"], ["2026-10-07", "VE40", "Verkehrsanordnung Arnold Böcklin-Strasse, Birsigstrasse, Oberwilerstrasse, Rotbergerstrasse", "Arnold Böcklin-Strasse, Birsigstrasse, Oberwilerstrasse, Rotbergerstrasse", "P", "Im Zusammenhang mit der Oberflächenneugestaltung der Oberwilerstrasse", "- bei der Verzweigung Oberwilerstrasse (aus Fahrtrichtung Bundesplatz):\n Geradeausfahren, ausgenommen Velos (bisher Geradeausfahren und Rechtsabbiegen, ausgenommen Velos).\n- vor der Liegenschaft Nr. 112, auf einer Länge von 5 m:\n Parkieren verboten (bisher Blaue Zone).\n- zwischen Rütimeyerstrasse und Steinenring:\n Einbahnstrasse in Fahrtrichtung Steinenring mit Velogegenverkehr (bisher Gegenverkehr); \n- seitlich der Eckliegenschaft Arnold Böcklin-Strasse Nr. 1, auf einer Länge von 29,5 m:\n Parkieren verboten (bisher Blaue Zone 21 m und Halteverbotslinie 8,5 m); \n- seitlich der Eckliegenschaft Steinenring Nr. 40, auf einer Länge von 6 m:\n Parkfeld „Velos/Motos“ (bisher Halteverbotslinie 2,5 m und Parkieren verboten 3,5 m); \n- vor den Liegenschaften Nrn. 7 und 9, auf einer Länge von 6 m:\n Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4054 unbeschränkt (bisher Parkieren verboten);\n - vor den Liegenschaften Nrn. 9-21, auf einer Länge von 15,7 m:\n Parkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung …\n(Auszug, vollständiger Text im Kantonsblatt)", "b5a9d299-0a0a-496c-b800-2078737695c0"], ["2026-10-07", "VE40", "Verkehrsanordnung Innere Margarethenstrasse", "Innere Margarethenstrasse", "P", "Im Zusammenhang mit der Tempo 30-Erweiterung auf nicht verkehrsorientierten Strassen", "- ganze Strasse:\n Höchstgeschwindigkeit 30 km/h.", "808f8ac2-c9db-4ab6-b005-d0ff4df74492"], ["2026-09-30", "VE40", "Verkehrsanordnung Muespacherstrasse", "Muespacherstrasse", "P", "Zwecks Einrichtung eines Parkfelds für mobilitätseingeschränkte Personen", "- seitlich der Liegenschaft Hegenheimerstrasse Nr. 119, auf einer Länge von 5,6 m:\n Parkfeld „Gehbehinderte“ (bisher Blaue Zone).", "a7b8505d-cb55-428c-abbc-c917e22fbb97"], ["2026-09-30", "VE40", "Verkehrsanordnung St. Alban-Rheinweg", "St. Alban-Rheinweg", "P", "Zwecks Verbesserung der Güterumschlagssituation für das Gewerbe", "- im Verzweigungsbereich Höhe Ramsteinerstrasse, auf einer Länge von 4,5 m:\nParkverbotslinie (bisher Blaue Zone).", "60e4d078-89d3-4534-8a2e-e8eb3e3b9e59"], ["2026-09-30", "VE40", "Verkehrsanordnung Bachlettenstrasse", "Bachlettenstrasse", "P", "Zwecks Verbesserung der Verkehrssicherheit", "- vor der Liegenschaft Nr. 15, auf einer Länge von 6 m:\n Halteverbotslinie (bisher Blaue Zone 4,2 m und Parkieren verboten 1,8 m); \n- vor den Liegenschaften Nrn. 19 und 21, auf einer Länge von 5 m:\n Parkfeld „Velos/Motos“ (bisher Parkieren verboten, Parkieren gestattet Mo-Fr 18:00-07:00 Uhr und Sa 17:00 Uhr - Mo 07:00 Uhr);\n - vor der Liegenschaft Nr. 27, auf einer Länge von 1 m:\n Parkieren verboten, Parkieren gestattet Mo-Fr 18:00-07:00 Uhr und Sa 17:00 Uhr - Mo 07:00 Uhr (bisher Parkfeld „Velos/Motos“);\n - vor der Liegenschaft Nr. 27, auf einer Länge von 5 m:\n Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4054 unbeschränkt (bisher Parkfeld „Velos/Motos“).", "feab86e7-f8d8-47e7-92e4-b4f6a7375754"], ["2026-09-30", "VE40", "Verkehrsanordnung In der Breite", "In der Breite, St. Alban-Rheinweg", "P", "Zwecks Verbesserung der Abstellmöglichkeiten für Velos und Motorräder", "- seitlich der Liegenschaft St. Alban-Rheinweg Nr. 240, auf einer Länge von 8 m:\n Parkfeld „Velos/Motos“ (bisher Parkieren verboten).", "0f506813-95cf-4564-ba2d-1268c1b8e3a9"], ["2026-09-23", "VE40", "Verkehrsanordnung Tüllingerstrasse", "Tüllingerstrasse", "P", "Zwecks Einrichtung eines Parkfelds für mobilitätseingeschränkte Personen", "- vor den Liegenschaften Nrn. 40 und 42, auf einer Länge von 5 m:\n Parkfeld „Gehbehinderte“ (bisher Blaue Zone).", "7d86bd73-5c77-4583-8d41-a83e9d7c5674"], ["2026-09-23", "VE40", "Verkehrsanordnung In den Schorenmatten", "In den Schorenmatten", "P", "Zwecks Einrichtung eines Parkfelds für mobilitätseingeschränkte Personen", "- vor der Liegenschaft Nr. 1, auf einer Länge von 5 m:\n Parkfeld „Gehbehinderte“ (bisher Blaue Zone).", "1aa95e31-87af-45ac-a69d-0b8e243657bc"], ["2026-09-16", "VE40", "Verkehrsanordnung Lehenmattstrasse", "Lehenmattstrasse", "P", "Im Zusammenhang mit der neuen Überbauung an der Lehenmattstrasse Parzelle Nr. 1068", "- vor der Liegenschaft Nr. 235, auf je einer Länge von 3 m:\n Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4052 unbeschränkt (bisher Parkfeld Velos/Motos);\n- vor der Liegenschaft Nr. 235, auf einer Länge von 11 m:\n Parkieren verboten, Parkieren gestattet Mo-Fr 19:00-07:00 Uhr und Sa 17:00 Uhr - Mo 07:00 Uhr (bisher Parkfeld Velos/Motos 2,0 m und Parkieren verboten 9,0 m);\n - vor der Liegenschaft Nr. 239 auf einer Länge von 6 m:\n Parkfeld „Velos/Motos“ (bisher Parkfeld Velos 4,5 m und Halteverbotslinie 1,5 m).", "bdab24df-f103-4e04-a3b1-5145e786ff77"], ["2026-09-16", "VE40", "Verkehrsanordnung Eulerstrasse", "Eulerstrasse", "P", "Im Zusammenhang mit der Oberflächenneugestaltung der Eulerstrasse, zwischen Socinstrasse und Spalentorweg", "- vor der Liegenschaft Nr. 51, auf einer Länge von 8 m:\n Parkfeld „Velos“ (bisher Parkfeld „Velos/Motos“); \n- vor den Liegenschaften Nrn. 51 und 53, auf einer Länge von 6 m:\n Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4051 unbeschränkt (bisher Parkfeld „Velos/Motos“); \n- vor der Liegenschaft Nr. 55, auf einer Länge von 1,4 m:\n Parkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 55, auf einer Länge von 0,8 m:\n Parkieren verboten, Parkieren gestattet Mo-Do 18:00-07:00 Uhr und Fr 18:00 Uhr - Mo 07:00 Uhr (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 58, auf einer Länge von 5,5 m:\n Parkfeld „Motos“ (bisher Blaue Zone); \n- vor der Liegenschaft Nr. 61, auf einer Länge von 1,4 m:\n Parkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone).", "1e9766e9-383a-4d7a-ad08-1a27c6458df1"], ["2026-09-16", "VE40", "Verkehrsanordnung Gundeldingerrain", "Gundeldingerrain", "P", "Zwecks Verbesserung der Verkehrssicherheit", "- bei der Einmündung in den Gundeldingerrain (Sackgasse):\n Kein Vortritt; \n- seitlich der Liegenschaft Nr. 151, auf einer Länge von 5 m:\n Halteverbotslinie (bisher Blaue Zone); \n- seitlich der Liegenschaft Nr. 169, auf einer Länge von 10 m:\n Halteverbotslinie (bisher Blaue Zone).", "aafd5d4d-527f-4649-a98e-6dcac9bd5298"], ["2026-09-16", "VE40", "Verkehrsanordnung Arlesheimerstrasse", "Arlesheimerstrasse", "P", "Zwecks Verbesserung der Abstellmöglichkeiten für Velos und Motorräder", "- gegenüber der Liegenschaft Nr. 40, auf einer Länge von 2 m:\n Parkfeld „Velos/Motos“ (bisher Parkieren verboten); \n- gegenüber der Liegenschaft Nr. 44, auf einer Länge von 6 m:\n Parkfeld „Velos/Motos“ (bisher Parkfeld Gehbehinderte); \n- gegenüber den Liegenschaften Nr. 44 und 48, auf einer Länge von 7 m:\n Parkfeld „Gehbehinderte“ (bisher Blaue Zone 6 m und Parkfeld Gehbehinderte 1 m).", "e9bcbdca-8f16-4e23-aa73-c8251dd2f523"], ["2026-09-16", "VE40", "Verkehrsanordnung Hagenbachstrasse", "Hagenbachstrasse", "P", "Zwecks Verbesserung der Verkehrssicherheit", "- seitlich der Liegenschaft Sevogelstrasse Nr. 117, auf einer Länge von 2 m:\n Parkieren verboten (bisher Blaue Zone).", "b3e72176-2646-428b-8a69-549ebe5b3218"], ["2026-09-02", "VE40", "Verkehrsanordnung Gotenstrasse, Riehen", "Gotenstrasse (Riehen)", "P", "Ausbau Elektroladestationen", "- vor der Liegenschaft Nr. 6, auf einer Länge von 5 m und 5 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).", "e7b54092-2445-4e41-b7ae-6a07fe47aaac"], ["2026-09-02", "VE40", "Verkehrsanordnung Rainallee, Riehen", "Rainallee (Riehen)", "P", "Ausbau Elektroladestationen", "- gegenüber der Liegenschaft Nr. 98, auf einer Länge von 5 m und 6 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).", "3466d136-d9f0-424d-90e9-8dca28275c4e"], ["2026-09-02", "VE40", "Verkehrsanordnung Kornfeldstrasse, Riehen", "Kornfeldstrasse (Riehen)", "P", "", "- vor dem Ausgang der Liegenschaft Nr. 89, links und rechts, je auf einer Länge von 5 m:\nParkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4125 unbeschränkt (bisher Parkieren verboten).", "9ac6356e-b10c-4073-9b04-bb6e0f3d82fd"], ["2026-09-02", "VE40", "Verkehrsanordnung Schützengasse, Riehen", "Schützengasse (Riehen)", "P", "", "- seitlich der Liegenschaft Oberdorfstrasse Nr. 21, auf einer Länge von 26 m:\nHalteverbotslinie (bisher Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4125 unbeschränkt und Zickzacklinie).", "e8ca3908-b339-4efc-83dc-1e7a44d25b3d"], ["2026-09-02", "VE40", "Verkehrsanordnung Hirtenweg, Riehen", "Hirtenweg (Riehen)", "P", "", "- ganze Strasse:\nTempo 30-Zone (bisher Tempo 50 generell).", "2c7a3bc7-4375-4476-bcd4-784fca55c4dc"], ["2026-11-07", "VE10", "Grenzacherweg (Bettingerstrasse bis Kohlistieg): Änderung Erschliessungsplan, öffentliche Planauflage", "Grenzacherweg (Riehen)", "", "Umgestaltung Grenzacherweg", "Erneuerung der Fahrbahn- und Trottoirflächen zwischen Bettingerstrasse und Kohlistieg. Trottoirüberfahrten bei den Einmündungen Gerstenweg, Mühlestiegstrasse, Garbenstrasse, Untere Wenkenhofstrasse, Weizenstrasse, Lachenweg, Hackbergstrasse, Tiefweg, Siegwaldweg, Unterm Schellenberg und Talweg. Veränderte Materialisierung in den Parkplatzbereichen. Bushaltestelle «Mühlestieg» (Richtung Bettingerstrasse) wird nach Norden verschoben.\nPlanauflage und Einsprachefrist bis Freitag, 4. Dezember 2026 (Gemeindeverwaltung Riehen).", "22ae3490-d030-4653-92d0-b53619d1ae59"], ["2026-10-28", "BP10", "Neu-, Um- und Anbauten: Höhenstrasse 39, Riehen", "Höhenstrasse (Riehen)", "", "", "Grundsatzfragen zum Bauvorhaben: Neubau Zweifamilienhaus sowie Umbau Bestandesgebäude zu vier Wohneinheiten, Erstellung Garage. Höhenstrasse 39, 4125 Riehen.", "5ee66581-686b-4967-be7a-130e8d761aee"], ["2026-10-21", "BP10", "Neu-, Um- und Anbauten: Büntenweg / Weingärtenweg, Bettingen", "Büntenweg, Weingärtenweg (Bettingen)", "", "", "Abbruch Einfamilienhaus mit Garage und Neubau drei Doppeleinfamilienhäuser mit gemeinsamer Autoeinstellhalle sowie Baumfällung und Ersatzpflanzungen.", "243eb538-c754-42d7-9835-924728fd51a8"], ["2026-10-14", "BP10", "2. Publikation (abgeänderte Pläne): Sonnenbergstrasse 67", "Sonnenbergstrasse", "", "", "Neubau Mehrfamilienhaus und Einfamilienhaus inklusive Autoeinstellhalle. Grund der 2. Publikation: Baumfällung.", "dccbeb9c-a9c0-4b57-89e4-5a43a8528594"], ["2026-11-25", "BP20", "Linienänderung Hagenaustrasse, Neudorfstrasse", "Hagenaustrasse, Neudorfstrasse", "", "", "Hagenaustrasse: Änderung der Bau- und Strassenlinien, neues öffentliches Fahrwegrecht. Neudorfstrasse vor Liegenschaft Nr. 84: Änderung der Baulinie. Gesuchsteller: Bau- und Verkehrsdepartement.", "0144c0f6-0058-46c3-926e-25a600ffdd92"], ["2026-11-25", "BP20", "Baugesuch auf Allmend mit Linienänderung Iris von Roten-Platz, Rut Keiser-Strasse", "Iris von Roten-Platz, Rut Keiser-Strasse", "", "", "Iris von Roten-Platz: Grünanlage mit Baumpflanzungen, Baumfällung, Brunnen, Änderung der Strassenlinie. Rut Keiser-Strasse: neue Baumrabatten mit Baumpflanzungen, Änderung der Strassenlinie. Gesuchsteller: Bau- und Verkehrsdepartement.", "6ebb9ad7-1517-4c31-907f-f97a851145d6"], ["2026-11-11", "BP20", "Bau- und Nutzungsgesuch auf Allmend: Neuhausstrasse 12, Wintersingerweg 8", "Neuhausstrasse, Wintersingerweg", "", "", "Erschliessung und Nutzung: 2 Ladesäulen E-Mobilität mit 4 Elektroparkplätzen, Nutzung ab Januar 2027. Gesuchsteller: IWB (Nutzung) und Tiefbauamt, Allmendverwaltung (Erschliessung).", "8992f1c4-b2f1-444c-8d91-b42b6d007121"], ["2026-11-07", "BP20", "Plangenehmigungsverfahren BLT: Gesamterneuerung Leimental Los 3, Binningerstrasse Abschnitt Zoo bis Bottmingen Schloss", "Binningerstrasse", "", "", "Eisenbahnrechtliches Plangenehmigungsverfahren mit Umweltverträglichkeitsprüfung. Erneuerung der Tramstrecke 10/17 zwischen Haltestelle Zoo (Basel) und Bottmingen als Teil der Gesamterneuerung Leimental.", "071be9de-7a68-49b2-a26c-ef319a489eba"], ["2026-11-04", "BP20", "Bau- und Nutzungsgesuch auf Allmend: Hüningerstrasse 70", "Hüningerstrasse", "", "", "Erschliessung und Nutzung: 1 Ladesäule E-Mobilität mit 2 Elektroparkplätzen. Gesuchsteller: Tiefbauamt (Erschliessung) und IWB (Nutzung).", "8791d404-3097-4f3d-a2ac-eaf28d937f44"], ["2026-11-04", "BP20", "Bau- und Nutzungsgesuch auf Allmend: St. Jakobs-Strasse 377", "St. Jakobs-Strasse", "", "", "Umgestaltung der Parkplatzsituation. Gesuchsteller: Tiefbauamt, Stadtgärtnerei.", "12e3a3f7-82df-4d91-84a3-0767af4a6402"], ["2026-10-28", "BP20", "Bau- und Nutzungsgesuch auf Allmend: In den Klostermatten 23", "In den Klostermatten", "", "", "Erschliessung und Nutzung: 1 Ladesäule E-Mobilität mit 2 Elektroparkplätzen, Nutzung ab November 2026. Gesuchsteller: Tiefbauamt, Allmendverwaltung (Erschliessung) und IWB (Nutzung).", "9b5efeff-04c1-4e1c-b9fb-c39b5ed73299"], ["2026-10-21", "BP20", "Bau- und Nutzungsgesuch auf Allmend: Aescherstrasse", "Aescherstrasse", "", "", "Umgestaltung der Allmend. Gesuchsteller: Bau- und Verkehrsdepartement, Tiefbauamt.", "0174f487-d37c-4de9-865c-b95f844866cf"], ["2026-10-07", "BP20", "Bau- und Nutzungsgesuch auf Allmend: Oberwilerstrasse, Rütimeyerstrasse bis Arnold Böcklin-Strasse", "Oberwilerstrasse", "", "", "Umgestaltung der Allmend: neue Rabatten, Baumpflanzungen, Anordnung von Parkplätzen und Veloabstellplätzen zwischen den Baumrabatten auf Rasenfugensteinen.", "aa3d0b01-c0ed-43cd-8242-464be0e95681"]];
+const KB = id => 'https://www.kantonsblatt.ch/#!/search/publications/detail/' + id;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const WD = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+const MO = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const dLong = s => { const d = new Date(s + 'T12:00:00'); return WD[d.getDay()] + ', ' + d.getDate() + '. ' + MO[d.getMonth()] + ' ' + d.getFullYear(); };
+const dShort = s => { const [y,m,d] = s.split('-'); return +d + '.' + +m + '.' + y; };
+
+const CATS = [
+ {k:'velo', n:'Velo- und Motoparkfelder', re:/Parkfeld „?(Velos|Motos|Lastenvelos)|Veloabstell/},
+ {k:'laden', n:'E-Ladestationen', re:/Ladevorgang|Ladesäule|Elektroparkpl/},
+ {k:'gehb', n:'Parkfelder für Gehbehinderte', re:/Parkfeld „Gehbehinderte/},
+ {k:'blau', n:'Neue Blaue-Zone-Parkplätze', re:/Parkscheibe \(Blaue Zone\)/},
+ {k:'verbot', n:'Halte- und Parkverbote', re:/Halteverbot|Parkverbot|^\s*Parkieren verboten(?!, Parkieren mit Parkscheibe)|Parkieren nicht möglich|Zickzack|Sperrfläche/m},
+ {k:'tempo', n:'Tempo 30 und Begegnungszonen', re:/Tempo|Höchstgeschwindigkeit|Begegnungszone/},
+ {k:'fahr', n:'Fahrverbote, Einbahn, Vortritt', re:/Verbot für Motorwagen|Einbahn|Vortritt|Geradeausfahren/},
+ {k:'oev', n:'Bus und Tram', re:/Buslinie|Bushaltestelle|Tram/},
+ {k:'park', n:'Parkplätze in Bauprojekten', re:/Parkpl|Garage|Autoeinstellhalle/},
+ {k:'bau', n:'Strassenraum und Allmend', re:/Allmend|Strassenlinie|Fahrweg|Fahrbahn|Trottoir|Erschliessungsplan/},
+ {k:'temp', n:'Temporäre Massnahmen', re:null}
+];
+
+const sign = k => {
+ const B = '#0b4ea2', R = '#d7262e';
+ const sq = inner => `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="${B}"/>${inner}</svg>`;
+ const rnd = (fill, inner) => `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="${fill}" stroke="${R}" stroke-width="3"/>${inner}</svg>`;
+ const P = '<text x="12" y="17" text-anchor="middle" font-family="Tahoma,Verdana,sans-serif" font-weight="700" font-size="15" fill="#fff">P</text>';
+ switch (k) {
+  case 'velo': return sq('<circle cx="7" cy="15" r="3.6" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="17" cy="15" r="3.6" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M7 15l4-6h5l1 6M11 9l2 6" fill="none" stroke="#fff" stroke-width="1.6"/>');
+  case 'laden': return sq('<path d="M13 3l-6 10h5l-1 8 6-10h-5z" fill="#fff"/>');
+  case 'gehb': return sq('<circle cx="11" cy="5.5" r="2" fill="#fff"/><path d="M11 8v6h5l2 4M8 11a5 5 0 1 0 7 6" fill="none" stroke="#fff" stroke-width="1.8"/>');
+  case 'blau': return sq(P);
+  case 'verbot': return rnd(B, '<path d="M5 5l14 14" stroke="#d7262e" stroke-width="3"/>');
+  case 'tempo': return rnd('#fff', '<text x="12" y="16.3" text-anchor="middle" font-family="Tahoma,Verdana,sans-serif" font-weight="700" font-size="11" fill="#0f1d2e">30</text>');
+  case 'fahr': return rnd('#fff', '');
+  case 'oev': return `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="#f2c200"/><rect x="6" y="5" width="12" height="11" rx="2" fill="#1b1300"/><rect x="8" y="7" width="8" height="4" fill="#f2c200"/><circle cx="8.5" cy="18.5" r="1.6" fill="#1b1300"/><circle cx="15.5" cy="18.5" r="1.6" fill="#1b1300"/></svg>`;
+  case 'park': return sq(P.replace('fill="#fff">P', 'fill="#fff">P') + '<rect x="15" y="15" width="6" height="6" rx="1" fill="#f2a516"/>');
+  case 'bau': case 'temp': return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l11 19H1z" fill="#fff" stroke="${R}" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 18h8M12 9v6" stroke="#0f1d2e" stroke-width="2"/></svg>`;
+ }
+ return '';
+};
+
+const num = s => parseFloat(String(s).replace(',', '.')) || 0;
+const lenOf = s => {
+ if (!s) return 0;
+ const x = s.match(/(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)/);
+ if (x) return num(x[1]) * num(x[2]);
+ return (s.match(/\d+(?:[.,]\d+)?/g) || []).reduce((a, b) => a + num(b), 0);
+};
+
+const parseItems = m => m.split(/\n\s*-\s*|^\s*-\s*/).map(t => t.trim()).filter(Boolean).map(t => {
+ const lm = t.match(/^(.*?Länge von ([^:]*?)\s*m?\s*:)\s*\n?\s*([\s\S]*)$/) || t.match(/^([^:\n]{3,120}:)\s*\n?\s*([\s\S]*)$/);
+ let loc = '', rest = t, L = 0;
+ if (lm && lm.length === 4) { loc = lm[1].replace(/:$/, ''); L = lenOf(lm[2]); rest = lm[3]; }
+ else if (lm) { loc = lm[1].replace(/:$/, ''); rest = lm[2]; }
+ const bm = rest.match(/^([\s\S]*?)\s*\(bisher ([\s\S]*)\)[;.,]?\s*$/);
+ const neu = (bm ? bm[1] : rest).replace(/[;,]\s*$/, '').trim();
+ const old = bm ? bm[2].trim() : '';
+ let lost = 0, gain = 0;
+ if (old && /Blaue Zone/i.test(old) && !/Blaue Zone/.test(neu)) { const bz = old.match(/Blaue Zone\s*(\d+(?:[.,]\d+)?)\s*m/i); lost = bz ? num(bz[1]) : L; }
+ if (/Blaue Zone/.test(neu) && !/Blaue Zone/i.test(old)) gain = L;
+ return { loc, neu, old, lost, gain };
+});
+
+const DATA = RAW.map(([d, r, t, s, typ, g, m, id]) => {
+ const va = r === 'VE40';
+ const items = va ? parseItems(m) : [{ loc: '', neu: m, old: '', lost: 0, gain: 0 }];
+ const neuText = items.map(i => i.neu).join('\n') + (va ? '' : '\n' + t);
+ const cats = CATS.filter(c => c.re && c.re.test(neuText)).map(c => c.k);
+ if (typ === 'T' || /Baubedingt|temporär/i.test(t + m)) cats.push('temp');
+ if (!cats.length) cats.push(va ? 'verbot' : 'bau');
+ const gem = /Riehen/.test(t + s) ? 'Riehen' : /Bettingen/.test(t + ' ' + s) && !/Basel, Bettingen/.test(t) ? 'Bettingen' : 'Basel';
+ const streets = s.split(/,\s*/).map(x => x.replace(/\s*\((Riehen|Bettingen)\)/, '').trim()).filter(Boolean);
+ return { d, va, t, streets, g, items, id, cats, gem, lost: items.reduce((a, i) => a + i.lost, 0), gain: items.reduce((a, i) => a + i.gain, 0), hay: (t + ' ' + s + ' ' + g + ' ' + m).toLowerCase() };
+}).sort((a, b) => b.d.localeCompare(a.d));
+
+const card = e => {
+ const shown = e.items.slice(0, 4), hidden = e.items.slice(4);
+ const li = i => `<li>${i.loc ? `<span class="loc">${esc(i.loc)}</span>` : ''}${esc(i.neu)}${i.old ? ` <span class="old">(bisher ${esc(i.old)})</span>` : ''}</li>`;
+ const net = e.lost - e.gain;
+ return `<article class="card">
+  <div class="meta"><time datetime="${e.d}">${dShort(e.d)}</time><span class="pill ${e.va ? 'p-va' : 'p-bp'}">${e.va ? 'Verkehrsanordnung' : 'Bau / Allmend'}</span>${e.cats.includes('temp') ? '<span class="pill p-t">temporär</span>' : ''}<span>${esc(e.gem)}</span></div>
+  <h3>${esc(e.va ? (e.streets.join(', ') || e.t) : e.t)}</h3>
+  ${e.g ? `<p class="why">${esc(e.g)}</p>` : ''}
+  <div class="tags">${e.cats.map(k => `<span class="tag">${sign(k)}${esc(CATS.find(c => c.k === k).n)}</span>`).join('')}</div>
+  <ul class="ms">${shown.map(li).join('')}</ul>
+  ${hidden.length ? `<details class="more"><summary>${hidden.length} weitere Punkte</summary><ul class="ms">${hidden.map(li).join('')}</ul></details>` : ''}
+  ${net > 0.5 ? `<span class="loss">Blaue Zone: rund ${Math.round(net)} m weniger</span>` : ''}
+  <a class="src" href="${KB(esc(e.id))}" target="_blank" rel="noopener">Im Kantonsblatt öffnen</a>
+ </article>`;
+};
+
+const $ = id => document.getElementById(id);
+let view = 'datum';
+try { view = localStorage.getItem('kb-view') || view; } catch (e) {}
+const hv = location.hash.slice(1);
+if (['datum', 'strasse', 'massnahme'].includes(hv)) view = hv;
+
+const filtered = () => {
+ const q = $('q').value.trim().toLowerCase(), src = $('src').value, gem = $('gem').value;
+ return DATA.filter(e => (!q || e.hay.includes(q)) && (!src || (src === 'va') === e.va) && (!gem || e.gem === gem));
+};
+
+const section = (title, list, id, extra = '') => `<h2 id="${id}">${title}<small>${list.length} ${list.length === 1 ? 'Eintrag' : 'Einträge'}${extra}</small></h2><div class="grid">${list.map(card).join('')}</div>`;
+
+const render = () => {
+ document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === view));
+ const list = filtered();
+ $('count').textContent = list.length + ' von ' + DATA.length + ' Publikationen';
+ let html = '';
+ if (!list.length) html = '<p class="empty">Keine Publikation passt zu dieser Suche.</p>';
+ else if (view === 'datum') {
+  const days = [...new Set(list.map(e => e.d))];
+  html = days.map(d => section(esc(dLong(d)), list.filter(e => e.d === d), 'd' + d)).join('');
+ } else if (view === 'strasse') {
+  const map = new Map();
+  list.forEach(e => (e.streets.length ? e.streets : [e.t]).forEach(s => { if (!map.has(s)) map.set(s, []); map.get(s).push(e); }));
+  const keys = [...map.keys()].sort((a, b) => a.localeCompare(b, 'de'));
+  const letters = [...new Set(keys.map(k => k[0].toUpperCase()))];
+  html = `<nav class="jump" aria-label="Alphabet">${letters.map(l => `<a href="#L-${esc(l)}">${esc(l)}</a>`).join('')}</nav>`;
+  let last = '';
+  html += keys.map(k => { const l = k[0].toUpperCase(); const anchor = l !== last ? `<span id="L-${esc(l)}"></span>` : ''; last = l; return anchor + section(esc(k), map.get(k), 's' + keys.indexOf(k)); }).join('');
+ } else {
+  html = CATS.map(c => { const l = list.filter(e => e.cats.includes(c.k)); return l.length ? section(`${sign(c.k).replace('<svg', '<svg width="28" height="28"')}${esc(c.n)}`, l, 'c-' + c.k) : ''; }).join('');
+ }
+ $('out').innerHTML = html;
+};
+
+const va = DATA.filter(e => e.va);
+const lost = va.reduce((a, e) => a + e.lost, 0), gain = va.reduce((a, e) => a + e.gain, 0);
+const latest = DATA[0].d;
+const latestN = DATA.filter(e => e.d === latest).length;
+$('lead').textContent = `Alle Verkehrsanordnungen seit ${dShort(SINCE)} und die Baupublikationen, die Parkplätze, Strassenraum oder Verkehr betreffen. Neueste Ausgabe: ${dLong(latest)} mit ${latestN} ${latestN === 1 ? 'Meldung' : 'Meldungen'}.`;
+const streetsN = new Set(va.flatMap(e => e.streets)).size;
+const k = [
+ [va.length, 'Verkehrsanordnungen'],
+ [DATA.length - va.length, 'Bau- und Allmendgesuche'],
+ [streetsN, 'betroffene Strassen'],
+ ['≈ ' + Math.round((lost - gain) / 5.5), `Blaue-Zone-Parkplätze netto weniger (${Math.round(lost)} m aufgehoben, ${Math.round(gain)} m neu)`, 'red']
+];
+$('kpis').innerHTML = k.map(([v, l, c]) => `<div class="kpi ${c || ''}"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join('');
+$('stand').textContent = 'Stand der Daten: ' + STAND + '.';
+
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+ view = b.dataset.v;
+ try { localStorage.setItem('kb-view', view); } catch (e) {}
+ try { history.replaceState(null, '', '#' + view); } catch (e) {}
+ render();
+}));
+['q', 'src', 'gem'].forEach(id => $(id).addEventListener('input', render));
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (['datum', 'strasse', 'massnahme'].includes(h)) { view = h; render(); } });
+render();
+}
+</script>
+</body>
+</html>
