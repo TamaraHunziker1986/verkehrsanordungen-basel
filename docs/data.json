@@ -255,6 +255,17 @@
  [
   "2026-10-21",
   "VE40",
+  "Verkehrsanordnung Schützengasse, Riehen",
+  "Schützengasse (Riehen)",
+  "P",
+  "",
+  "Vor der Liegenschaft Nr. 60, auf einer Länge von 16 m: Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4125 unbeschränkt (bisher Parkieren verboten).",
+  "89aee21a-462b-4abd-b5c7-c393ddb405db",
+  "VE-BS40-0000001541"
+ ],
+ [
+  "2026-10-21",
+  "VE40",
   "Verkehrsanordnung Aescherstrasse",
   "Aescherstrasse",
   "P",
@@ -273,17 +284,6 @@
   "- seitlich der Eckliegenschaft Neuweilerstrasse Nr. 40, auf einer Länge von 5 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Carsharing-Standort).",
   "7fb0d1b2-959d-4c6c-9b51-eb8c09510465",
   "VE-BS40-0000001543"
- ],
- [
-  "2026-10-21",
-  "VE40",
-  "Verkehrsanordnung Schützengasse, Riehen",
-  "Schützengasse (Riehen)",
-  "P",
-  "",
-  "Vor der Liegenschaft Nr. 60, auf einer Länge von 16 m: Parkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4125 unbeschränkt (bisher Parkieren verboten).",
-  "89aee21a-462b-4abd-b5c7-c393ddb405db",
-  "VE-BS40-0000001541"
  ],
  [
   "2026-10-21",
@@ -882,6 +882,17 @@
  [
   "2026-08-19",
   "VE40",
+  "Verkehrsanordnung Reusstrasse",
+  "Reusstrasse",
+  "P",
+  "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund",
+  "- vor der Liegenschaft Nr. 78, auf einer Länge von 2,75 m:\nParkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4054 unbeschränkt (bisher Parkieren verboten);\n- vor den Liegenschaften Nrn. 78 und 80, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone);\n- vor der Liegenschaft Nr. 80, auf einer Länge von 1,6 m:\nParkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone, neu Elektroladestation).",
+  "14711759-a3b8-4dc2-931e-7206c70c1565",
+  "VE-BS40-0000001490"
+ ],
+ [
+  "2026-08-19",
+  "VE40",
   "Verkehrsanordnung Pfeffingerstrasse",
   "Pfeffingerstrasse",
   "P",
@@ -911,17 +922,6 @@
   "- vor den Liegenschaften Nrn. 69 und 71, auf einer Länge von 12 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).",
   "61bbfce7-aaf1-4e9c-847e-6ac40e08a2ba",
   "VE-BS40-0000001496"
- ],
- [
-  "2026-08-19",
-  "VE40",
-  "Verkehrsanordnung Reusstrasse",
-  "Reusstrasse",
-  "P",
-  "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund",
-  "- vor der Liegenschaft Nr. 78, auf einer Länge von 2,75 m:\nParkieren mit Parkscheibe (Blaue Zone), mit Parkkarte 4054 unbeschränkt (bisher Parkieren verboten);\n- vor den Liegenschaften Nrn. 78 und 80, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone);\n- vor der Liegenschaft Nr. 80, auf einer Länge von 1,6 m:\nParkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone, neu Elektroladestation).",
-  "14711759-a3b8-4dc2-931e-7206c70c1565",
-  "VE-BS40-0000001490"
  ],
  [
   "2026-08-12",
@@ -1256,6 +1256,17 @@
  [
   "2026-06-10",
   "VE40",
+  "Verkehrsanordnung Schulgasse",
+  "Schulgasse",
+  "P",
+  "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund",
+  "- gegenüber der Liegenschaft Nr. 6, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone);\n- gegenüber der Liegenschaft Nr. 6, auf einer Länge von 2.1 m:\nHalteverbotslinie (bisher Blaue Zone 1.7 m);\n- gegenüber der Liegenschaft Nr. 6, auf einer Länge von 1.6 m:\nParkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone, neu Elektroladestation).",
+  "d1e98490-7b62-4768-ae86-fa2ebaed5ceb",
+  "VE-BS40-0000001459"
+ ],
+ [
+  "2026-06-10",
+  "VE40",
   "Verkehrsanordnung Kabelstrasse, Lysbüchelstrasse",
   "Kabelstrasse",
   "P",
@@ -1278,6 +1289,17 @@
  [
   "2026-06-10",
   "VE40",
+  "Verkehrsanordnung Vogelsangstrasse",
+  "Vogelsangstrasse",
+  "P",
+  "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund",
+  "- gegenüber der Eckliegenschaft Kienbergstrasse Nr. 17, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).",
+  "fbc037ec-a967-48de-8e2c-02ca4ba1706c",
+  "VE-BS40-0000001453"
+ ],
+ [
+  "2026-06-10",
+  "VE40",
   "Verkehrsanordnung Blauenstrasse",
   "Blauenstrasse",
   "P",
@@ -1296,28 +1318,6 @@
   "- vor der Liegenschaft Nr. 23, auf einer Länge von 4 m:\nParkieren verboten (bisher Parkfeld Velos);\n- vor der Liegenschaft Nr. 35, auf einer Länge von 4 m:\nParkfeld „Velos“ (bisher Parkieren verboten).",
   "b1461f35-a629-4147-97ca-84188cea3b9d",
   "VE-BS40-0000001462"
- ],
- [
-  "2026-06-10",
-  "VE40",
-  "Verkehrsanordnung Schulgasse",
-  "Schulgasse",
-  "P",
-  "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund",
-  "- gegenüber der Liegenschaft Nr. 6, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone);\n- gegenüber der Liegenschaft Nr. 6, auf einer Länge von 2.1 m:\nHalteverbotslinie (bisher Blaue Zone 1.7 m);\n- gegenüber der Liegenschaft Nr. 6, auf einer Länge von 1.6 m:\nParkieren nicht möglich aufgrund baulicher Anpassungen und/oder anderweitiger Nutzung (bisher Blaue Zone, neu Elektroladestation).",
-  "d1e98490-7b62-4768-ae86-fa2ebaed5ceb",
-  "VE-BS40-0000001459"
- ],
- [
-  "2026-06-10",
-  "VE40",
-  "Verkehrsanordnung Vogelsangstrasse",
-  "Vogelsangstrasse",
-  "P",
-  "Im Zusammenhang mit dem Ausbau der Elektroladestationen auf öffentlichem Grund",
-  "- gegenüber der Eckliegenschaft Kienbergstrasse Nr. 17, auf einer Länge von 11 m:\nParkieren verboten, Parkieren mit Parkscheibe, 08:00-19:00 Uhr, Ladevorgang Elektrofahrzeuge, maximale Parkzeit 3 Stunden / Parkieren gestattet, 19:00-08:00 Uhr, Ladevorgang Elektrofahrzeuge (bisher Blaue Zone).",
-  "fbc037ec-a967-48de-8e2c-02ca4ba1706c",
-  "VE-BS40-0000001453"
  ],
  [
   "2026-06-03",
@@ -1751,6 +1751,17 @@
  [
   "2026-03-25",
   "VE40",
+  "Verkehrsanordnung Bachtelenweg, Riehen",
+  "Bachtelenweg (Riehen)",
+  "P",
+  "",
+  "- zwischen Einmündung aus der Baselstrasse bis Kehrplatz: Fussgängerzone, Zubringersdienst und Velos gestattet (bisher Tempo-30-Zone).\n- gegenüber der Liegenschaft Nr. 3 bis zum Kehrplatz: Parkieren verboten (bisher 60 m Parkieren gegen Gebühr, Zentrale Parkuhr, maximale Parkzeit während Gebührenpflicht 120 Minuten, gebührenpflichtige Zeit: Werktags 08:30-19:00 Uhr und 6 m Parkfeld Motos).",
+  "ba63a8b0-01a4-4a34-bf56-f23371d7be0a",
+  "VE-BS40-0000001397"
+ ],
+ [
+  "2026-03-25",
+  "VE40",
   "Verkehrsanordnung Mauerstrasse",
   "Mauerstrasse",
   "P",
@@ -1780,17 +1791,6 @@
   "- vor der Liegenschaft Nr. 65, auf einer Länge von 12 m:\nHalten verboten (bisher Parkieren verboten).",
   "d54b4e81-7f6e-4cdb-a97e-e0ee6fb4c964",
   "VE-BS40-0000001401"
- ],
- [
-  "2026-03-25",
-  "VE40",
-  "Verkehrsanordnung Bachtelenweg, Riehen",
-  "Bachtelenweg (Riehen)",
-  "P",
-  "",
-  "- zwischen Einmündung aus der Baselstrasse bis Kehrplatz: Fussgängerzone, Zubringersdienst und Velos gestattet (bisher Tempo-30-Zone).\n- gegenüber der Liegenschaft Nr. 3 bis zum Kehrplatz: Parkieren verboten (bisher 60 m Parkieren gegen Gebühr, Zentrale Parkuhr, maximale Parkzeit während Gebührenpflicht 120 Minuten, gebührenpflichtige Zeit: Werktags 08:30-19:00 Uhr und 6 m Parkfeld Motos).",
-  "ba63a8b0-01a4-4a34-bf56-f23371d7be0a",
-  "VE-BS40-0000001397"
  ],
  [
   "2026-03-18",
@@ -1839,6 +1839,17 @@
  [
   "2026-03-11",
   "VE40",
+  "Verkehrsanordnung Riehenring (Nebenfahrbahn)",
+  "Riehenring (Nebenfahrbahn)",
+  "P",
+  "Zwecks Optimierung einer Veloverbindung zur Umfahrung der Clarastrasse",
+  "- zwischen Drahtzugstrasse und Clarastrasse in Fahrtrichtung Clarastrasse:\nFussweg, Güterumschlag 05.00 – 11.00 Uhr sowie Velos im Schritttempo gestattet, Mofas verboten (bisher Allgemeines Fahrverbot, ausgenommen Zufahrt zum Güterumschlag 06.00 – 11.00 Uhr);\n- zwischen Clarastrasse und Drahtzugstrasse in Fahrtrichtung Drahtzugstrasse:\nFussweg, Velos im Schritttempo gestattet, Mofas verboten (bisher Allgemeines Fahrverbot);\n- bei der Einmündung in die Drahtzugstrasse von der Clarastrasse kommend:\nKein Vortritt;\n- bei der Einmündung in die Drahtzugstrasse von der Klingentalstrasse kommend:\nKein Vortritt.",
+  "d73bb0fd-9267-4193-9b78-4d543693f787",
+  "VE-BS40-0000001392"
+ ],
+ [
+  "2026-03-11",
+  "VE40",
   "Verkehrsanordnung Meret Oppenheim-Strasse",
   "Meret Oppenheim-Strasse",
   "P",
@@ -1868,17 +1879,6 @@
   "- vor der Liegenschaft Nr. 24, auf einer Länge von 5 m:\nHalteverbotslinie (bisher Parkieren verboten).",
   "ac22a946-2817-4f65-8b0d-88519de7dacd",
   "VE-BS40-0000001384"
- ],
- [
-  "2026-03-11",
-  "VE40",
-  "Verkehrsanordnung Riehenring (Nebenfahrbahn)",
-  "Riehenring (Nebenfahrbahn)",
-  "P",
-  "Zwecks Optimierung einer Veloverbindung zur Umfahrung der Clarastrasse",
-  "- zwischen Drahtzugstrasse und Clarastrasse in Fahrtrichtung Clarastrasse:\nFussweg, Güterumschlag 05.00 – 11.00 Uhr sowie Velos im Schritttempo gestattet, Mofas verboten (bisher Allgemeines Fahrverbot, ausgenommen Zufahrt zum Güterumschlag 06.00 – 11.00 Uhr);\n- zwischen Clarastrasse und Drahtzugstrasse in Fahrtrichtung Drahtzugstrasse:\nFussweg, Velos im Schritttempo gestattet, Mofas verboten (bisher Allgemeines Fahrverbot);\n- bei der Einmündung in die Drahtzugstrasse von der Clarastrasse kommend:\nKein Vortritt;\n- bei der Einmündung in die Drahtzugstrasse von der Klingentalstrasse kommend:\nKein Vortritt.",
-  "d73bb0fd-9267-4193-9b78-4d543693f787",
-  "VE-BS40-0000001392"
  ],
  [
   "2026-03-04",
@@ -1949,6 +1949,17 @@
  [
   "2026-02-18",
   "VE40",
+  "Verkehrsanordnung St. Galler-Ring",
+  "St. Galler-Ring",
+  "P",
+  "Zwecks Verbesserung der Verkehrssicherheit",
+  "- vor den Liegenschaften Nrn. 152 und 154, auf einer Länge von 6 m:\nHalteverbotslinie (bisher Blaue Zone).",
+  "50c4fa8d-56c3-4145-92c6-e3d42f078f35",
+  "VE-BS40-0000001376"
+ ],
+ [
+  "2026-02-18",
+  "VE40",
   "Verkehrsanordnung Badenweilerstrasse",
   "Badenweilerstrasse",
   "P",
@@ -1967,17 +1978,6 @@
   "- zwischen Steinenschanze und Austrasse:\nZone Höchstgeschwindigkeit 30 km/h (bisher Höchstgeschwindigkeit 50 km/h).\n- ganze Strasse:\nZone Höchstgeschwindigkeit 30 km/h (bisher Höchstgeschwindigkeit 50 km/h).",
   "42421011-f5c8-4185-87d9-31b0eacf255c",
   "VE-BS40-0000001380"
- ],
- [
-  "2026-02-18",
-  "VE40",
-  "Verkehrsanordnung St. Galler-Ring",
-  "St. Galler-Ring",
-  "P",
-  "Zwecks Verbesserung der Verkehrssicherheit",
-  "- vor den Liegenschaften Nrn. 152 und 154, auf einer Länge von 6 m:\nHalteverbotslinie (bisher Blaue Zone).",
-  "50c4fa8d-56c3-4145-92c6-e3d42f078f35",
-  "VE-BS40-0000001376"
  ],
  [
   "2026-02-11",
